@@ -1,3 +1,7 @@
+## 1.8.0
+
+- widen `carp_serializable` constraint to allow 3.x
+
 ## 1.7.0
 
 - Upgrading gradle major version
