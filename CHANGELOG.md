@@ -1,6 +1,6 @@
 ## 1.8.0
 
-- widen `carp_serializable` constraint to allow 3.x
+- upgrade to `carp_serializable` ^3.0.0 and `research_package` ^2.5.0
 
 ## 1.7.0
 

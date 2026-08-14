@@ -11,8 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  carp_serializable: '>=2.0.0 <4.0.0'
-  research_package: ^2.0.0
+  carp_serializable: ^3.0.0
+  research_package: ^2.5.0
   json_annotation: ^4.8.0
   just_audio: ^0.9.34
   reorderables: ^0.6.0
