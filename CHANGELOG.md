@@ -1,3 +1,7 @@
+## 1.8.0
+
+- upgrade to `carp_serializable` ^3.0.0 and `research_package` ^2.5.0
+
 ## 1.7.0
 
 - Upgrading gradle major version
