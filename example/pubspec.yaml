@@ -14,6 +14,7 @@ dependencies:
 
   cognition_package:
     path: ../../cognition_package
+  carp_themes_package: ^0.2.0
   # research_package:
   #   path: ../../research.package/
 
