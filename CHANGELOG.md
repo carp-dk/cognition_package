@@ -1,3 +1,7 @@
+## 1.9.1
+
+- fix: the Flanker test did not end when a card was flung vertically - such a swipe discarded the card without counting it. Cards now only answer left/right, and the last swipe ends the test.
+
 ## 1.9.0
 
 - upgrade to `research_package` ^3.0.0
