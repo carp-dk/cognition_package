@@ -3,6 +3,7 @@ import 'package:cognition_package/cognition_package.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:carp_serializable/carp_serializable.dart';
+import 'package:carp_themes_package/carp_themes_package.dart';
 import 'package:flutter/services.dart';
 
 part 'cognition_config.dart';
@@ -57,8 +58,7 @@ class MyApp extends StatelessWidget {
         return supportedLocales.first;
       },
 
-      theme: researchPackageTheme,
-      darkTheme: researchPackageDarkTheme,
+      theme: carpTheme,
       title: 'Cognition Package Demo',
       home: const MyHomePage(),
       debugShowCheckedModeBanner: false,
