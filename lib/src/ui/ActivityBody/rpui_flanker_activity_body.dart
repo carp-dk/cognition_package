@@ -91,35 +91,36 @@ class RPUIFlankerActivityState extends State<RPUIFlankerActivity> {
   void startTest() async {
     startTimer();
     await Future<dynamic>.delayed(const Duration(seconds: 1));
-    Timer(Duration(seconds: widget.activity.lengthOfTest), () {
-      if (mounted) {
-        widget.eventLogger.testEnded();
-        var flankerScoreResults = widget.activity.calculateScoreFlanker({
-          'mistakes': wrongSwipe,
-          'correct': rightSwipe,
-          'congruentTimes': congruentTimes,
-          'incongruentTimes': incongruentTimes
-        });
-        var flankerResult = RPFlankerResult.fromResults(
-          wrongSwipe,
-          rightSwipe,
-          seconds,
-          flankerScoreResults[0] as int,
-          flankerScoreResults[1] as double,
-          flankerScoreResults[2] as double,
-          congruentTimes.length,
-          incongruentTimes.length,
-        );
-        testTimer?.cancel();
-        flankerTimer?.cancel();
-        seconds = 0;
-        widget.onResultChange(flankerResult.results);
-        if (widget.activity.includeResults) {
-          widget.eventLogger.resultsShown();
-        }
-        setState(() => activityStatus = ActivityStatus.Result);
-      }
+    Timer(Duration(seconds: widget.activity.lengthOfTest), finish);
+  }
+
+  /// Ends the test - when all cards are swiped or the time is up.
+  void finish() {
+    if (!mounted || activityStatus == ActivityStatus.Result) return;
+    widget.eventLogger.testEnded();
+    var flankerScoreResults = widget.activity.calculateScoreFlanker({
+      'mistakes': wrongSwipe,
+      'correct': rightSwipe,
+      'congruentTimes': congruentTimes,
+      'incongruentTimes': incongruentTimes
     });
+    var flankerResult = RPFlankerResult.fromResults(
+      wrongSwipe,
+      rightSwipe,
+      seconds,
+      flankerScoreResults[0] as int,
+      flankerScoreResults[1] as double,
+      flankerScoreResults[2] as double,
+      congruentTimes.length,
+      incongruentTimes.length,
+    );
+    testTimer?.cancel();
+    flankerTimer?.cancel();
+    widget.onResultChange(flankerResult.results);
+    if (widget.activity.includeResults) {
+      widget.eventLogger.resultsShown();
+    }
+    setState(() => activityStatus = ActivityStatus.Result);
   }
 
   @override
@@ -132,35 +133,6 @@ class RPUIFlankerActivityState extends State<RPUIFlankerActivity> {
   @override
   Widget build(BuildContext context) {
     var locale = CPLocalizations.of(context);
-    if (flankerScore == widget.activity.numberOfCards) {
-      flankerScore = 0;
-      if (mounted) {
-        widget.eventLogger.testEnded();
-        var flankerScoreResults = widget.activity.calculateScoreFlanker({
-          'mistakes': wrongSwipe,
-          'correct': rightSwipe,
-          'congruentTimes': congruentTimes,
-          'incongruentTimes': incongruentTimes
-        });
-        var flankerResult = RPFlankerResult.fromResults(
-          wrongSwipe,
-          rightSwipe,
-          seconds,
-          flankerScoreResults[0] as int,
-          flankerScoreResults[1] as double,
-          flankerScoreResults[2] as double,
-          congruentTimes.length,
-          incongruentTimes.length,
-        );
-        testTimer?.cancel();
-        flankerTimer?.cancel();
-        widget.onResultChange(flankerResult.results);
-        if (widget.activity.includeResults) {
-          widget.eventLogger.resultsShown();
-        }
-        setState(() => activityStatus = ActivityStatus.Result);
-      }
-    }
 
     switch (activityStatus) {
       case ActivityStatus.Instruction:
@@ -356,41 +328,28 @@ class FlankerCard extends StatelessWidget {
     return ret;
   }
 
-  void onSwipeRight(offset) {
-    if (direction == '→') {
+  void onSwipe(String swiped) {
+    if (direction == swiped) {
       flankerState.rightSwipe++;
-      if (congruent) {
-        flankerState.congruentTimes.add(flankerState.flankerSeconds);
-      } else {
-        flankerState.incongruentTimes.add(flankerState.flankerSeconds);
-      }
+      (congruent ? flankerState.congruentTimes : flankerState.incongruentTimes)
+          .add(flankerState.flankerSeconds);
     } else {
       flankerState.wrongSwipe++;
     }
-    flankerState.flankerScore++;
     flankerState.flankerSeconds = 0;
-  }
-
-  void onSwipeLeft(offset) {
-    if (direction == '←') {
-      flankerState.rightSwipe++;
-      if (congruent) {
-        flankerState.congruentTimes.add(flankerState.flankerSeconds);
-      } else {
-        flankerState.incongruentTimes.add(flankerState.flankerSeconds);
-      }
-    } else {
-      flankerState.wrongSwipe++;
+    if (++flankerState.flankerScore ==
+        flankerState.widget.activity.numberOfCards) {
+      flankerState.finish();
     }
-    flankerState.flankerScore++;
-    flankerState.flankerSeconds = 0;
   }
 
   @override
   Widget build(BuildContext context) {
     return Swipable(
-      onSwipeRight: onSwipeRight,
-      onSwipeLeft: onSwipeLeft,
+      onSwipeRight: (_) => onSwipe(right),
+      onSwipeLeft: (_) => onSwipe(left),
+      // Only left/right answer a card - a vertical fling must not discard it.
+      verticalSwipe: false,
       child: Container(
         width: MediaQuery.of(context).size.width * 0.9,
         height: MediaQuery.of(context).size.height * 0.7,
