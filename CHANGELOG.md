@@ -1,3 +1,9 @@
+## 1.10.0
+
+- upgrade to `research_package` ^4.0.0
+- upgrade to `json_annotation` ^4.12.0
+- upgrade example app to gradle 9.1.0
+
 ## 1.9.1
 
 - fix: the Flanker test did not end when a card was flung vertically - such a swipe discarded the card without counting it. Cards now only answer left/right, and the last swipe ends the test.
