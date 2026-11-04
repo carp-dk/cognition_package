@@ -1,9 +1,18 @@
 # Cognition Package
 
-[![pub package](https://img.shields.io/pub/v/cognition_package.svg)](https://pub.dartlang.org/packages/cognition_package)
-[![style: recommended](https://img.shields.io/badge/style-lint-4BC0F5.svg)](https://pub.dev/packages/lints)
-[![github stars](https://img.shields.io/github/stars/cph-cachet/cognition_package.svg?style=flat&logo=github&colorB=deeppink&label=stars)](https://github.com/cph-cachet/cognition_package)
-[![MIT License](https://img.shields.io/badge/license-MIT-purple.svg)](https://opensource.org/licenses/MIT)
+<p>
+  <a href="https://carp.dk"><img align="right" width="166" height="70" src="https://raw.githubusercontent.com/carp-dk/movesense_plus/main/images/carp-x-dtu-logo.svg" alt="CARP x DTU"></a>
+  <a href="https://pub.dev/packages/cognition_package"><img src="https://img.shields.io/pub/v/cognition_package?logo=dart&amp;logoColor=white&amp;label=pub&amp;color=0175C2" alt="pub version"></a>
+  <a href="https://pub.dev/packages/cognition_package/score"><img src="https://img.shields.io/pub/likes/cognition_package" alt="pub likes"></a>
+  <a href="https://pub.dev/packages/cognition_package/score"><img src="https://img.shields.io/pub/dm/cognition_package" alt="pub monthly downloads"></a>
+  <br>
+  <a href="https://flutter.dev"><img src="https://img.shields.io/badge/Flutter-package-02569B?logo=flutter&amp;logoColor=white" alt="Flutter package"></a>
+  <a href="https://pub.dev/packages/cognition_package"><img src="https://img.shields.io/badge/Android-supported-3DDC84?logo=android&amp;logoColor=white" alt="Android supported"></a>
+  <a href="https://pub.dev/packages/cognition_package"><img src="https://img.shields.io/badge/iOS-supported-000000?logo=apple&amp;logoColor=white" alt="iOS supported"></a>
+  <a href="https://pub.dev/packages/research_package"><img src="https://img.shields.io/badge/built%20on-Research%20Package-990000" alt="Built on Research Package"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/carp-dk/cognition_package?color=blue" alt="License: MIT"></a>
+  <br clear="right">
+</p>
 
 [Cognition Package](https://carp.cachet.dk/cognition-package/) is a Flutter [package](https://pub.dartlang.org/packages/cognition_package) for building cognitive tests for study apps on Android and iOS built using the [Research Package](https://pub.dartlang.org/packages/research_package).
 
