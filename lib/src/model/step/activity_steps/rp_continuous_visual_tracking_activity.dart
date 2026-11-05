@@ -37,12 +37,11 @@ class RPContinuousVisualTrackingActivity extends RPActivityStep {
   Widget stepBody(
     dynamic Function(dynamic) onResultChange,
     RPActivityEventLogger eventLogger,
-  ) =>
-      RPUIContinuousVisualTrackingActivityBody(
-        this,
-        eventLogger,
-        onResultChange,
-      );
+  ) => RPUIContinuousVisualTrackingActivityBody(
+    this,
+    eventLogger,
+    onResultChange,
+  );
 
   /// The result of this activity is a list of mistakes for each test repetition.
   /// The list is empty if no mistakes were made.
@@ -67,8 +66,8 @@ class RPContinuousVisualTrackingActivity extends RPActivityStep {
   @override
   Function get fromJsonFunction => _$RPContinuousVisualTrackingActivityFromJson;
   factory RPContinuousVisualTrackingActivity.fromJson(
-          Map<String, dynamic> json) =>
-      FromJsonFactory().fromJson<RPContinuousVisualTrackingActivity>(json);
+    Map<String, dynamic> json,
+  ) => FromJsonFactory().fromJson<RPContinuousVisualTrackingActivity>(json);
   @override
   Map<String, dynamic> toJson() =>
       _$RPContinuousVisualTrackingActivityToJson(this);

@@ -16,13 +16,13 @@ class CognitionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: RPUITask(
-          task: cognitionTask,
-          onSubmit: (result) {
-            resultCallback(result);
-          },
-        ),
-      );
+    body: RPUITask(
+      task: cognitionTask,
+      onSubmit: (result) {
+        resultCallback(result);
+      },
+    ),
+  );
 
   void resultCallback(RPTaskResult result) async {
     print('FINAL RESULTS');

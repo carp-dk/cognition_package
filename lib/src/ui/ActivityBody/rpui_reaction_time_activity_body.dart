@@ -14,8 +14,11 @@ class RPUIReactionTimeActivityBody extends StatefulWidget {
 
   /// The [RPUIReactionTimeActivityBody] constructor.
   const RPUIReactionTimeActivityBody(
-      this.activity, this.eventLogger, this.onResultChange,
-      {super.key});
+    this.activity,
+    this.eventLogger,
+    this.onResultChange, {
+    super.key,
+  });
 
   @override
   RPUIReactionTimeActivityBodyState createState() =>
@@ -90,7 +93,7 @@ class RPUIReactionTimeActivityBodyState
         widget.onResultChange({
           'avg. reaction time': result,
           'Wrong taps': wrongTaps,
-          'Correct taps': correctTaps
+          'Correct taps': correctTaps,
         });
         if (widget.activity.includeResults) {
           widget.eventLogger.resultsShown();
@@ -134,20 +137,23 @@ class RPUIReactionTimeActivityBodyState
                 height: MediaQuery.of(context).size.height / 2.5,
                 width: MediaQuery.of(context).size.width / 1.1,
                 decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: AssetImage(
-                            'packages/cognition_package/assets/images/Reactionintro.png'))),
+                  image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: AssetImage(
+                      'packages/cognition_package/assets/images/Reactionintro.png',
+                    ),
+                  ),
+                ),
               ),
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width / 2,
               child: OutlinedButton(
                 style: ButtonStyle(
-                  padding: MaterialStateProperty.all(
+                  padding: WidgetStateProperty.all(
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                   ),
-                  shape: MaterialStateProperty.all(
+                  shape: WidgetStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6),
                     ),
@@ -172,80 +178,91 @@ class RPUIReactionTimeActivityBodyState
         );
       case ActivityStatus.Test:
         return Flex(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            verticalDirection: VerticalDirection.down,
-            direction: Axis.horizontal,
-            children: <Widget>[
-              Expanded(
-                  child: InkWell(
-                      onTap: () async {
-                        //on tap depends on if light is on. If so, record time, turn light off, and call lightRegulator.
-                        if (lightOn) {
-                          setState(() {
-                            lightOn = false;
-                            correctTaps++;
-                            widget.eventLogger.addCorrectGesture(
-                                'Correct Screen Tap',
-                                'Tapped the screen after ${_sw.elapsedMilliseconds} ms');
-                            _sw.stop();
-                            rtList.add(_sw
-                                .elapsedMilliseconds); //add delay for current tap.
-                            _sw.reset();
-                          });
-                          lightRegulator();
-                        } else {
-                          allowGreen = false;
-                          wrongTaps++;
-                          widget.eventLogger.addWrongGesture('Wrong Screen Tap',
-                              'Tapped the screen before the screen was yellow');
-                          setState(() {
-                            alert =
-                                locale?.translate('reaction_time.too_quick') ??
-                                    "Not so quick.";
-                          });
-                          await Future<dynamic>.delayed(
-                              const Duration(seconds: 1)); //display feedback
-                          if (mounted) {
-                            allowGreen = true;
-                            setState(() {
-                              alert = '';
-                            });
-                            lightRegulator();
-                          } //no actual penalty for wrong taps (would give a wrong picture). WrongTaps are not actually used
-                        }
-                      },
-                      child: Container(
-                          color: lightOn ? Colors.yellow : Colors.blue,
-                          alignment: Alignment.center,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                alert,
-                                style: TextStyle(
-                                    fontSize: 22,
-                                    color: Colors.white.withOpacity(1.0)),
-                              ),
-                            ],
-                          ))))
-            ]);
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          verticalDirection: VerticalDirection.down,
+          direction: Axis.horizontal,
+          children: <Widget>[
+            Expanded(
+              child: InkWell(
+                onTap: () async {
+                  //on tap depends on if light is on. If so, record time, turn light off, and call lightRegulator.
+                  if (lightOn) {
+                    setState(() {
+                      lightOn = false;
+                      correctTaps++;
+                      widget.eventLogger.addCorrectGesture(
+                        'Correct Screen Tap',
+                        'Tapped the screen after ${_sw.elapsedMilliseconds} ms',
+                      );
+                      _sw.stop();
+                      rtList.add(
+                        _sw.elapsedMilliseconds,
+                      ); //add delay for current tap.
+                      _sw.reset();
+                    });
+                    lightRegulator();
+                  } else {
+                    allowGreen = false;
+                    wrongTaps++;
+                    widget.eventLogger.addWrongGesture(
+                      'Wrong Screen Tap',
+                      'Tapped the screen before the screen was yellow',
+                    );
+                    setState(() {
+                      alert =
+                          locale?.translate('reaction_time.too_quick') ??
+                          "Not so quick.";
+                    });
+                    await Future<dynamic>.delayed(
+                      const Duration(seconds: 1),
+                    ); //display feedback
+                    if (mounted) {
+                      allowGreen = true;
+                      setState(() {
+                        alert = '';
+                      });
+                      lightRegulator();
+                    } //no actual penalty for wrong taps (would give a wrong picture). WrongTaps are not actually used
+                  }
+                },
+                child: Container(
+                  color: lightOn ? Colors.yellow : Colors.blue,
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        alert,
+                        style: const TextStyle(
+                          fontSize: 22,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
       case ActivityStatus.Result:
         if (widget.activity.includeResults) {
           return Container(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    '${locale?.translate('reaction_time.time_up') ?? "Time is up."} $result ${locale?.translate('reaction_time.final_score') ?? "is your average reaction time (in milliseconds)."}',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 22),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 5,
-                  ),
-                ],
-              ));
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  '${locale?.translate('reaction_time.time_up') ?? "Time is up."} $result ${locale?.translate('reaction_time.final_score') ?? "is your average reaction time (in milliseconds)."}',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 22),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 5,
+                ),
+              ],
+            ),
+          );
         } else {
           return Container(
             alignment: Alignment.center,

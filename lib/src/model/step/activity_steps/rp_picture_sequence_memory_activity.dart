@@ -25,8 +25,7 @@ class RPPictureSequenceMemoryActivity extends RPActivityStep {
   Widget stepBody(
     dynamic Function(dynamic) onResultChange,
     RPActivityEventLogger eventLogger,
-  ) =>
-      RPUIPictureSequenceMemoryActivityBody(this, eventLogger, onResultChange);
+  ) => RPUIPictureSequenceMemoryActivityBody(this, eventLogger, onResultChange);
 
   /// The results is the list of pairs correcly placed in the test.
   /// The score is the sum of correctly placed pairs.

@@ -1,5 +1,5 @@
 /// The domain model of Cognition Package.
-library cognition_package_model;
+library;
 
 import 'package:flutter/material.dart';
 import 'package:research_package/research_package.dart';

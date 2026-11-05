@@ -28,8 +28,7 @@ class RPVisualArrayChangeActivity extends RPActivityStep {
   Widget stepBody(
     dynamic Function(dynamic) onResultChange,
     RPActivityEventLogger eventLogger,
-  ) =>
-      RPUIVisualArrayChangeActivityBody(this, eventLogger, onResultChange);
+  ) => RPUIVisualArrayChangeActivityBody(this, eventLogger, onResultChange);
 
   /// Score is the number of correct answers in the test.
   @override

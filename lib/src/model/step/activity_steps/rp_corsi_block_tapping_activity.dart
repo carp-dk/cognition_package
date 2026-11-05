@@ -14,8 +14,7 @@ class RPCorsiBlockTappingActivity extends RPActivityStep {
   Widget stepBody(
     dynamic Function(dynamic) onResultChange,
     RPActivityEventLogger eventLogger,
-  ) =>
-      RPUICorsiBlockTappingActivityBody(this, eventLogger, onResultChange);
+  ) => RPUICorsiBlockTappingActivityBody(this, eventLogger, onResultChange);
 
   @override
   Function get fromJsonFunction => _$RPCorsiBlockTappingActivityFromJson;

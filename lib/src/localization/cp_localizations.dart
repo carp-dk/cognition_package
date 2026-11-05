@@ -37,22 +37,21 @@ class CPLocalizations extends AssetLocalizations {
     String jsonString = '{}';
 
     try {
-      jsonString = await rootBundle.loadString(
-        staticAssetName,
-        cache: false,
-      );
+      jsonString = await rootBundle.loadString(staticAssetName, cache: false);
     } catch (_) {
       print(
-          "WARNING - Failed to load RP translations for '$locale' and it seems like RP does not support this locale in the current version. "
-          'If you are using this locale in your app, you should consider to make a pull request to RP so we can add this locale to the package for others to use as well. '
-          'See https://carp.cachet.dk/localization for a description on how to do this. '
-          'For now, translations provided in the app localization file(s) are also used for RP so you can provide translations for the RP terms there for now.');
+        "WARNING - Failed to load RP translations for '$locale' and it seems like RP does not support this locale in the current version. "
+        'If you are using this locale in your app, you should consider to make a pull request to RP so we can add this locale to the package for others to use as well. '
+        'See https://carp.cachet.dk/localization for a description on how to do this. '
+        'For now, translations provided in the app localization file(s) are also used for RP so you can provide translations for the RP terms there for now.',
+      );
     }
 
     Map<String, dynamic> jsonMap =
         json.decode(jsonString) as Map<String, dynamic>;
-    translations
-        .addAll(jsonMap.map((key, value) => MapEntry(key, value.toString())));
+    translations.addAll(
+      jsonMap.map((key, value) => MapEntry(key, value.toString())),
+    );
   }
 
   /// A default [LocalizationsDelegate] for [CPLocalizations].

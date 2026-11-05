@@ -14,8 +14,11 @@ class RPUICorsiBlockTappingActivityBody extends StatefulWidget {
 
   /// The [RPUICorsiBlockTappingActivityBody] constructor.
   const RPUICorsiBlockTappingActivityBody(
-      this.activity, this.eventLogger, this.onResultChange,
-      {super.key});
+    this.activity,
+    this.eventLogger,
+    this.onResultChange, {
+    super.key,
+  });
 
   @override
   RPUICorsiActivityBodyState createState() => RPUICorsiActivityBodyState();
@@ -87,8 +90,10 @@ class RPUICorsiActivityBodyState
       }
       if (!wasCorrect) {
         if (failedLast) {
-          widget.eventLogger.addWrongGesture('Button tap',
-              'Test Finished after second fail - Tapped the order: $tapOrder. The correct order was: ${blocks.getRange(0, numberOfBlocks)}');
+          widget.eventLogger.addWrongGesture(
+            'Button tap',
+            'Test Finished after second fail - Tapped the order: $tapOrder. The correct order was: ${blocks.getRange(0, numberOfBlocks)}',
+          );
           setState(() {
             taskInfo = locale?.translate('corsi_block.finished') ?? 'Finished';
           });
@@ -102,8 +107,10 @@ class RPUICorsiActivityBodyState
             });
           }
         } else {
-          widget.eventLogger.addWrongGesture('Button tap',
-              'Failed first try - Tapped the order: $tapOrder. The correct order was: ${blocks.getRange(0, numberOfBlocks)}');
+          widget.eventLogger.addWrongGesture(
+            'Button tap',
+            'Failed first try - Tapped the order: $tapOrder. The correct order was: ${blocks.getRange(0, numberOfBlocks)}',
+          );
           failedLast = true;
           setState(() {
             taskInfo =
@@ -113,8 +120,10 @@ class RPUICorsiActivityBodyState
           startTest();
         }
       } else {
-        widget.eventLogger.addCorrectGesture('Button tap',
-            'Succeeded test in ${!failedLast ? 'first' : 'second'} try. Tap order was: $tapOrder');
+        widget.eventLogger.addCorrectGesture(
+          'Button tap',
+          'Succeeded test in ${!failedLast ? 'first' : 'second'} try. Tap order was: $tapOrder',
+        );
         setState(() {
           failedLast = false;
           taskInfo = locale?.translate('corsi_block.well_done') ?? 'Well done!';
@@ -160,20 +169,18 @@ class RPUICorsiActivityBodyState
                 height: MediaQuery.of(context).size.height / 2.5,
                 width: MediaQuery.of(context).size.width / 1.1,
                 decoration: BoxDecoration(
-                    image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: image.image,
-                )),
+                  image: DecorationImage(fit: BoxFit.fill, image: image.image),
+                ),
               ),
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width / 2,
               child: OutlinedButton(
                 style: ButtonStyle(
-                  padding: MaterialStateProperty.all(
+                  padding: WidgetStateProperty.all(
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                   ),
-                  shape: MaterialStateProperty.all(
+                  shape: WidgetStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6),
                     ),
@@ -239,8 +246,6 @@ class RPUICorsiActivityBodyState
             textAlign: TextAlign.center,
           ),
         );
-      default:
-        return Container();
     }
   }
 

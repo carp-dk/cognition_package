@@ -31,20 +31,23 @@ void main() {
 
     RPActivityStep rapidVisualInfoProcessingStep =
         RPRapidVisualInfoProcessingActivity(
-            identifier: 'RVIP step ID', lengthOfTest: 10);
+          identifier: 'RVIP step ID',
+          lengthOfTest: 10,
+        );
 
     RPActivityStep activityStepTrail = RPTrailMakingActivity(
-        identifier: 'Trail Making step ID',
-        trailType: TrailType.B,
-        includeResults: false);
+      identifier: 'Trail Making step ID',
+      trailType: TrailType.B,
+      includeResults: false,
+    );
 
     RPActivityStep activityStepLetterTapping = RPLetterTappingActivity(
-        identifier: 'Letter Tapping step ID', includeResults: false);
+      identifier: 'Letter Tapping step ID',
+      includeResults: false,
+    );
 
     RPActivityStep pairedAssociatesLearningStep =
-        RPPairedAssociatesLearningActivity(
-      identifier: 'PAL step ID',
-    );
+        RPPairedAssociatesLearningActivity(identifier: 'PAL step ID');
 
     RPActivityStep corsiBlockTapping = RPCorsiBlockTappingActivity(
       identifier: 'Corsi Block Tapping step ID',
@@ -55,46 +58,52 @@ void main() {
     );
 
     RPActivityStep flanker = RPFlankerActivity(
-        identifier: 'Flanker step ID',
-        lengthOfTest: 45 /* 300 */,
-        numberOfCards: 10,
-        includeResults: true);
+      identifier: 'Flanker step ID',
+      lengthOfTest: 45 /* 300 */,
+      numberOfCards: 10,
+      includeResults: true,
+    );
 
     RPActivityStep pictureSequenceMemory = RPPictureSequenceMemoryActivity(
-        identifier: 'PictureSequenceMemory step ID',
-        lengthOfTest: 180,
-        numberOfTests: 1,
-        numberOfPics: 6,
-        includeResults: false);
+      identifier: 'PictureSequenceMemory step ID',
+      lengthOfTest: 180,
+      numberOfTests: 1,
+      numberOfPics: 6,
+      includeResults: false,
+    );
 
     RPActivityStep wordRecall = RPWordRecallActivity(
-        identifier: 'WordRecall step ID',
-        lengthOfTest: 180,
-        numberOfTests: 3,
-        includeResults: false);
+      identifier: 'WordRecall step ID',
+      lengthOfTest: 180,
+      numberOfTests: 3,
+      includeResults: false,
+    );
 
     RPActivityStep delayedRecall = RPDelayedRecallActivity(
-        identifier: 'DelayedRecall step ID',
-        lengthOfTest: 180,
-        numberOfTests: 3,
-        includeResults: false);
+      identifier: 'DelayedRecall step ID',
+      lengthOfTest: 180,
+      numberOfTests: 3,
+      includeResults: false,
+    );
 
     RPActivityStep visualArrayChange = RPVisualArrayChangeActivity(
-        identifier: 'VisualArrayChange step ID',
-        lengthOfTest: 180,
-        numberOfTests: 3,
-        waitTime: 3,
-        includeResults: false);
+      identifier: 'VisualArrayChange step ID',
+      lengthOfTest: 180,
+      numberOfTests: 3,
+      waitTime: 3,
+      includeResults: false,
+    );
 
     RPActivityStep continuousVisualTracking =
         RPContinuousVisualTrackingActivity(
-            identifier: 'ContinuousVisualTracking step ID',
-            numberOfTests: 3,
-            amountOfDots: 15,
-            dotSize: 40,
-            lengthOfTest: 180,
-            trackingSpeed: const Duration(seconds: 5),
-            includeResults: false);
+          identifier: 'ContinuousVisualTracking step ID',
+          numberOfTests: 3,
+          amountOfDots: 15,
+          dotSize: 40,
+          lengthOfTest: 180,
+          trackingSpeed: const Duration(seconds: 5),
+          includeResults: false,
+        );
 
     surveyTask = RPOrderedTask(
       identifier: 'surveyTaskID',
@@ -118,16 +127,19 @@ void main() {
     );
 
     surveyResult = RPTaskResult(identifier: surveyTask!.identifier);
-    surveyResult!.results[delayedRecall.identifier] =
-        RPDelayedRecallResult(identifier: delayedRecall.identifier);
-    surveyResult!.results[flanker.identifier] =
-        RPFlankerResult(identifier: flanker.identifier);
+    surveyResult!.results[delayedRecall.identifier] = RPDelayedRecallResult(
+      identifier: delayedRecall.identifier,
+    );
+    surveyResult!.results[flanker.identifier] = RPFlankerResult(
+      identifier: flanker.identifier,
+    );
     surveyResult!.results[pictureSequenceMemory.identifier] =
         RPPictureSequenceResult(identifier: pictureSequenceMemory.identifier);
     surveyResult!.results[visualArrayChange.identifier] =
         RPVisualArrayChangeResult(identifier: visualArrayChange.identifier);
-    surveyResult!.results[wordRecall.identifier] =
-        RPWordRecallResult(identifier: wordRecall.identifier);
+    surveyResult!.results[wordRecall.identifier] = RPWordRecallResult(
+      identifier: wordRecall.identifier,
+    );
   });
 
   group('Cognition Survey', () {
@@ -135,21 +147,26 @@ void main() {
       print(toJsonString(surveyTask!));
     });
 
-    test('Cognition Survey -> JSON -> Cognition Survey :: deep assert',
-        () async {
-      final surveyJson = toJsonString(surveyTask!);
+    test(
+      'Cognition Survey -> JSON -> Cognition Survey :: deep assert',
+      () async {
+        final surveyJson = toJsonString(surveyTask!);
 
-      RPOrderedTask survey = RPOrderedTask.fromJson(
-          json.decode(surveyJson) as Map<String, dynamic>);
-      expect(toJsonString(survey), equals(surveyJson));
-    });
+        RPOrderedTask survey = RPOrderedTask.fromJson(
+          json.decode(surveyJson) as Map<String, dynamic>,
+        );
+        expect(toJsonString(survey), equals(surveyJson));
+      },
+    );
 
     test('JSON file -> Cognition Survey', () async {
-      String surveyJson =
-          File('test/json/cognition_survey.json').readAsStringSync();
+      String surveyJson = File(
+        'test/json/cognition_survey.json',
+      ).readAsStringSync();
 
       RPOrderedTask survey = RPOrderedTask.fromJson(
-          json.decode(surveyJson) as Map<String, dynamic>);
+        json.decode(surveyJson) as Map<String, dynamic>,
+      );
 
       expect(survey.steps.length, surveyTask!.steps.length);
       expect(survey.steps.first.identifier, surveyTask!.steps.first.identifier);
@@ -164,11 +181,13 @@ void main() {
     });
 
     test('JSON -> Recall RPTaskResult', () async {
-      String plainJson =
-          File('test/json/recall_result.json').readAsStringSync();
+      String plainJson = File(
+        'test/json/recall_result.json',
+      ).readAsStringSync();
 
-      final task =
-          RPTaskResult.fromJson(json.decode(plainJson) as Map<String, dynamic>);
+      final task = RPTaskResult.fromJson(
+        json.decode(plainJson) as Map<String, dynamic>,
+      );
 
       expect(task.$type, task.runtimeType.toString());
       expect(task.results.values.first.$type, 'RPDelayedRecallResult');
@@ -176,17 +195,20 @@ void main() {
 
       // deep assert
       final taskJson = toJsonString(task);
-      final taskFromJson =
-          RPTaskResult.fromJson(json.decode(taskJson) as Map<String, dynamic>);
+      final taskFromJson = RPTaskResult.fromJson(
+        json.decode(taskJson) as Map<String, dynamic>,
+      );
       expect(toJsonString(taskFromJson), equals(taskJson));
     });
 
     test('JSON -> Flanker RPTaskResult', () async {
-      String plainJson =
-          File('test/json/flanker_result.json').readAsStringSync();
+      String plainJson = File(
+        'test/json/flanker_result.json',
+      ).readAsStringSync();
 
-      final task =
-          RPTaskResult.fromJson(json.decode(plainJson) as Map<String, dynamic>);
+      final task = RPTaskResult.fromJson(
+        json.decode(plainJson) as Map<String, dynamic>,
+      );
 
       expect(task.$type, task.runtimeType.toString());
       expect(task.results.values.first.$type, 'RPActivityResult');
@@ -194,8 +216,9 @@ void main() {
 
       // deep assert
       final taskJson = toJsonString(task);
-      final taskFromJson =
-          RPTaskResult.fromJson(json.decode(taskJson) as Map<String, dynamic>);
+      final taskFromJson = RPTaskResult.fromJson(
+        json.decode(taskJson) as Map<String, dynamic>,
+      );
       expect(toJsonString(taskFromJson), equals(taskJson));
     });
   });

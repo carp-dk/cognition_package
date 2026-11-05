@@ -87,39 +87,37 @@ class MyHomePageState extends State<MyHomePage> {
             Container(height: 50),
             Padding(
               padding: const EdgeInsets.all(22.0),
-              child: Image.asset(
-                "assets/images/mcat-logo.png",
-                height: 80,
-              ),
+              child: Image.asset("assets/images/mcat-logo.png", height: 80),
             ),
             Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                      locale?.translate("home.welcome") ?? "Welcome",
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 16, color: Colors.white),
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    locale?.translate("home.welcome") ?? "Welcome",
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 16, color: Colors.white),
+                  ),
+                  Container(height: 5),
+                  Text(
+                    locale?.translate("home.questions") ?? "Questions?",
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 16, color: Colors.white),
+                  ),
+                  Container(height: 5),
+                  const Text(
+                    "support@carp.dk",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                      decoration: TextDecoration.underline,
                     ),
-                    Container(height: 5),
-                    Text(
-                      locale?.translate("home.questions") ?? "Questions?",
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                    Container(height: 5),
-                    const Text(
-                      "support@carp.dk",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                          decoration: TextDecoration.underline),
-                    ),
-                    //Container(height: 50),
-                  ],
-                )),
+                  ),
+                  //Container(height: 50),
+                ],
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 50),
               child: ElevatedButton(
@@ -132,8 +130,11 @@ class MyHomePageState extends State<MyHomePage> {
                   style: const TextStyle(fontSize: 18, color: Colors.white),
                 ),
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute<dynamic>(
-                      builder: (context) => const CognitionPage()));
+                  Navigator.of(context).push(
+                    MaterialPageRoute<dynamic>(
+                      builder: (context) => const CognitionPage(),
+                    ),
+                  );
                 },
               ),
             ),
@@ -141,13 +142,11 @@ class MyHomePageState extends State<MyHomePage> {
         ),
       ),
       bottomNavigationBar: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.all(22.0),
-        child: Image.asset(
-          "assets/images/carp_logo.png",
-          height: 50,
+        child: Padding(
+          padding: const EdgeInsets.all(22.0),
+          child: Image.asset("assets/images/carp_logo.png", height: 50),
         ),
-      )),
+      ),
     );
   }
 }

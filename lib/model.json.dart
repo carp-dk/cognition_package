@@ -28,14 +28,12 @@ void _registerFromJsonFunctions() {
   ]);
 
   // result classes
-  FromJsonFactory().registerAll(
-    [
-      RPDelayedRecallResult(identifier: ''),
-      RPFlankerResult(identifier: ''),
-      RPPictureSequenceResult(identifier: ''),
-      RPVisualArrayChangeResult(identifier: ''),
-      RPVisualTrackingResult(identifier: ''),
-      RPWordRecallResult(identifier: ''),
-    ],
-  );
+  FromJsonFactory().registerAll([
+    RPDelayedRecallResult(identifier: ''),
+    RPFlankerResult(identifier: ''),
+    RPPictureSequenceResult(identifier: ''),
+    RPVisualArrayChangeResult(identifier: ''),
+    RPVisualTrackingResult(identifier: ''),
+    RPWordRecallResult(identifier: ''),
+  ]);
 }

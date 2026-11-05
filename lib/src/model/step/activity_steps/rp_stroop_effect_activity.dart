@@ -4,13 +4,14 @@ part of '../../../../model.dart';
 @JsonSerializable(includeIfNull: false, explicitToJson: true)
 class RPStroopEffectActivity extends RPActivityStep {
   /// Contructor for creating a Stroop effect Test.
-  RPStroopEffectActivity(
-      {required super.identifier,
-      super.includeInstructions,
-      super.includeResults,
-      this.lengthOfTest = 40,
-      this.displayTime = 1000,
-      this.delayTime = 750});
+  RPStroopEffectActivity({
+    required super.identifier,
+    super.includeInstructions,
+    super.includeResults,
+    this.lengthOfTest = 40,
+    this.displayTime = 1000,
+    this.delayTime = 750,
+  });
 
   /// Test duration in seconds. Default is 40 seconds.
   int lengthOfTest;
@@ -26,8 +27,7 @@ class RPStroopEffectActivity extends RPActivityStep {
   Widget stepBody(
     dynamic Function(dynamic) onResultChange,
     RPActivityEventLogger eventLogger,
-  ) =>
-      RPUIStroopEffectActivityBody(this, eventLogger, onResultChange);
+  ) => RPUIStroopEffectActivityBody(this, eventLogger, onResultChange);
 
   @override
   Function get fromJsonFunction => _$RPStroopEffectActivityFromJson;

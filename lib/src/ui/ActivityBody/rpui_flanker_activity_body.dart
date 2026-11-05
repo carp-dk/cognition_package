@@ -58,15 +58,13 @@ class RPUIFlankerActivityState extends State<RPUIFlankerActivity> {
     const oneSec = Duration(seconds: 1);
     testTimer = Timer.periodic(
       oneSec,
-      (Timer timer) => setState(
-        () {
-          if (seconds < 0) {
-            timer.cancel();
-          } else {
-            seconds = seconds + 1;
-          }
-        },
-      ),
+      (Timer timer) => setState(() {
+        if (seconds < 0) {
+          timer.cancel();
+        } else {
+          seconds = seconds + 1;
+        }
+      }),
     );
   }
 
@@ -76,15 +74,13 @@ class RPUIFlankerActivityState extends State<RPUIFlankerActivity> {
     const oneSec = Duration(milliseconds: 1);
     flankerTimer = Timer.periodic(
       oneSec,
-      (Timer timer) => setState(
-        () {
-          if (flankerSeconds < 0) {
-            flankerTimer?.cancel();
-          } else {
-            flankerSeconds = flankerSeconds + 1;
-          }
-        },
-      ),
+      (Timer timer) => setState(() {
+        if (flankerSeconds < 0) {
+          flankerTimer?.cancel();
+        } else {
+          flankerSeconds = flankerSeconds + 1;
+        }
+      }),
     );
   }
 
@@ -102,7 +98,7 @@ class RPUIFlankerActivityState extends State<RPUIFlankerActivity> {
       'mistakes': wrongSwipe,
       'correct': rightSwipe,
       'congruentTimes': congruentTimes,
-      'incongruentTimes': incongruentTimes
+      'incongruentTimes': incongruentTimes,
     });
     var flankerResult = RPFlankerResult.fromResults(
       wrongSwipe,
@@ -178,20 +174,23 @@ class RPUIFlankerActivityState extends State<RPUIFlankerActivity> {
                 height: 250,
                 width: 250,
                 decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: AssetImage(
-                            'packages/cognition_package/assets/images/flanker.png'))),
+                  image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: AssetImage(
+                      'packages/cognition_package/assets/images/flanker.png',
+                    ),
+                  ),
+                ),
               ),
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width / 2,
               child: OutlinedButton(
                 style: ButtonStyle(
-                  padding: MaterialStateProperty.all(
+                  padding: WidgetStateProperty.all(
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                   ),
-                  shape: MaterialStateProperty.all(
+                  shape: WidgetStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6),
                     ),
@@ -216,9 +215,11 @@ class RPUIFlankerActivityState extends State<RPUIFlankerActivity> {
       case ActivityStatus.Test:
         return Scaffold(
           body: Center(
-              child: Flanker(
-                  numberOfCards: widget.activity.numberOfCards,
-                  flankerState: this)),
+            child: Flanker(
+              numberOfCards: widget.activity.numberOfCards,
+              flankerState: this,
+            ),
+          ),
         );
       case ActivityStatus.Result:
         if (widget.activity.includeResults) {
@@ -239,8 +240,6 @@ class RPUIFlankerActivityState extends State<RPUIFlankerActivity> {
             ),
           );
         }
-      default:
-        return Container();
     }
   }
 }
@@ -273,10 +272,12 @@ class FlankerState extends State<Flanker> {
       even = !even;
       if (Random().nextBool()) {
         cards.add(
-            FlankerCard('→', even ? 0xff003F6E : 0xffC32C39, flankerState));
+          FlankerCard('→', even ? 0xff003F6E : 0xffC32C39, flankerState),
+        );
       } else {
         cards.add(
-            FlankerCard('←', even ? 0xff003F6E : 0xffC32C39, flankerState));
+          FlankerCard('←', even ? 0xff003F6E : 0xffC32C39, flankerState),
+        );
       }
     }
     flankerState.startFlankerTimer();
@@ -358,13 +359,14 @@ class FlankerCard extends StatelessWidget {
           color: Color(color),
         ),
         child: Center(
-            child: FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Text(
-            stimuli(),
-            style: const TextStyle(fontSize: 55, color: Colors.white),
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              stimuli(),
+              style: const TextStyle(fontSize: 55, color: Colors.white),
+            ),
           ),
-        )),
+        ),
       ),
     );
   }
@@ -447,7 +449,7 @@ class Swipable extends StatefulWidget {
 
   const Swipable({
     super.key,
-    @required this.child,
+    required this.child,
     this.onSwipeRight,
     this.onSwipeLeft,
     this.onSwipeDown,
@@ -489,24 +491,29 @@ class SwipableState extends State<Swipable> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (context, constraints) => GestureDetector(
-            onPanStart: _onPanStart,
-            onPanEnd: _onPanEnd,
-            onPanUpdate: _onPanUpdate,
-            child: Stack(
-              // overflow: Overflow.visible,
-              children: [
-                AnimatedPositioned(
-                    duration: Duration(milliseconds: _duration),
-                    top: _positionY,
-                    left: _positionX,
-                    child: Container(
-                        constraints: BoxConstraints(
-                            maxHeight: constraints.maxHeight,
-                            maxWidth: constraints.maxWidth),
-                        child: widget.child))
-              ],
-            )));
+      builder: (context, constraints) => GestureDetector(
+        onPanStart: _onPanStart,
+        onPanEnd: _onPanEnd,
+        onPanUpdate: _onPanUpdate,
+        child: Stack(
+          // overflow: Overflow.visible,
+          children: [
+            AnimatedPositioned(
+              duration: Duration(milliseconds: _duration),
+              top: _positionY,
+              left: _positionX,
+              child: Container(
+                constraints: BoxConstraints(
+                  maxHeight: constraints.maxHeight,
+                  maxWidth: constraints.maxWidth,
+                ),
+                child: widget.child,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -541,9 +548,11 @@ class SwipableState extends State<Swipable> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    double potentialX = _positionX +
+    double potentialX =
+        _positionX +
         (details.velocity.pixelsPerSecond.dx * (widget.threshold ?? 1));
-    double potentialY = _positionY +
+    double potentialY =
+        _positionY +
         (details.velocity.pixelsPerSecond.dy * (widget.threshold ?? 1));
 
     Offset currentPosition = Offset(_positionX, _positionY);
@@ -590,21 +599,23 @@ class SwipableState extends State<Swipable> {
     });
 
     if (shouldSwipe) {
-      Future.delayed(Duration(milliseconds: widget.animationDuration ?? 300),
-          () {
-        // Clock wise radian angle of the velocity
+      Future.delayed(
+        Duration(milliseconds: widget.animationDuration ?? 300),
+        () {
+          // Clock wise radian angle of the velocity
 
-        Offset finalPosition = Offset(newX, newY);
-        if (swipedRight && widget.onSwipeRight != null) {
-          widget.onSwipeRight!(finalPosition);
-        } else if (swipedLeft && widget.onSwipeLeft != null) {
-          widget.onSwipeLeft!(finalPosition);
-        } else if (swipedDown && widget.onSwipeDown != null) {
-          widget.onSwipeDown!(finalPosition);
-        } else if (swipedUp && widget.onSwipeUp != null) {
-          widget.onSwipeUp!(finalPosition);
-        }
-      });
+          Offset finalPosition = Offset(newX, newY);
+          if (swipedRight && widget.onSwipeRight != null) {
+            widget.onSwipeRight!(finalPosition);
+          } else if (swipedLeft && widget.onSwipeLeft != null) {
+            widget.onSwipeLeft!(finalPosition);
+          } else if (swipedDown && widget.onSwipeDown != null) {
+            widget.onSwipeDown!(finalPosition);
+          } else if (swipedUp && widget.onSwipeUp != null) {
+            widget.onSwipeUp!(finalPosition);
+          }
+        },
+      );
     }
   }
 
@@ -645,8 +656,11 @@ class SwipableState extends State<Swipable> {
 
     // Calculating velocity so the card arrives at it's final position when the animation ends.
     Velocity velocity = Velocity(
-        pixelsPerSecond: Offset(remainingX / (widget.threshold ?? 1),
-            remainingY / (widget.threshold ?? 1)));
+      pixelsPerSecond: Offset(
+        remainingX / (widget.threshold ?? 1),
+        remainingY / (widget.threshold ?? 1),
+      ),
+    );
     DragEndDetails details = DragEndDetails(velocity: velocity);
     _onPanEnd(details);
   }

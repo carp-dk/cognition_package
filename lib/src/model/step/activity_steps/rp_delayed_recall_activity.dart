@@ -16,8 +16,7 @@ class RPDelayedRecallActivity extends RPWordRecallActivity {
   Widget stepBody(
     dynamic Function(dynamic) onResultChange,
     RPActivityEventLogger eventLogger,
-  ) =>
-      RPUIDelayedRecallActivityBody(this, eventLogger, onResultChange);
+  ) => RPUIDelayedRecallActivityBody(this, eventLogger, onResultChange);
 
   @override
   Function get fromJsonFunction => _$RPDelayedRecallActivityFromJson;

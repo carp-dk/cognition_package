@@ -21,8 +21,7 @@ class RPWordRecallActivity extends RPActivityStep {
   Widget stepBody(
     dynamic Function(dynamic) onResultChange,
     RPActivityEventLogger eventLogger,
-  ) =>
-      RPUIWordRecallActivityBody(this, eventLogger, onResultChange);
+  ) => RPUIWordRecallActivityBody(this, eventLogger, onResultChange);
 
   /// Score is the sum of correct answers in the list of results that
   /// match the words in the list of words.
