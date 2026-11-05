@@ -3,6 +3,9 @@
 - upgrade to `research_package` ^4.0.0
 - upgrade to `json_annotation` ^4.12.0
 - upgrade example app to gradle 9.1.0
+- fix minor warnings and deprecations
+- `Swipable.child` is now a `required` parameter
+- raise minimum versions to Dart 3.12 and Flutter 3.44, which `research_package` ^4.0.0 requires
 
 ## 1.9.1
 

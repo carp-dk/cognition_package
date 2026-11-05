@@ -4,12 +4,13 @@ part of '../../../../model.dart';
 @JsonSerializable(includeIfNull: false, explicitToJson: true)
 class RPReactionTimeActivity extends RPActivityStep {
   /// Contructor for creating a Reaction time Test.
-  RPReactionTimeActivity(
-      {required super.identifier,
-      super.includeInstructions,
-      super.includeResults,
-      this.lengthOfTest = 30,
-      this.switchInterval = 4});
+  RPReactionTimeActivity({
+    required super.identifier,
+    super.includeInstructions,
+    super.includeResults,
+    this.lengthOfTest = 30,
+    this.switchInterval = 4,
+  });
 
   /// The duration of the test. Default is 30 seconds.
   int lengthOfTest;
@@ -22,8 +23,7 @@ class RPReactionTimeActivity extends RPActivityStep {
   Widget stepBody(
     dynamic Function(dynamic) onResultChange,
     RPActivityEventLogger eventLogger,
-  ) =>
-      RPUIReactionTimeActivityBody(this, eventLogger, onResultChange);
+  ) => RPUIReactionTimeActivityBody(this, eventLogger, onResultChange);
 
   @override
   Function get fromJsonFunction => _$RPReactionTimeActivityFromJson;

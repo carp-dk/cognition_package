@@ -1,5 +1,5 @@
 /// The UI library of Cognition Package.
-library cognition_package_ui;
+library;
 
 import 'dart:async';
 import 'dart:math';

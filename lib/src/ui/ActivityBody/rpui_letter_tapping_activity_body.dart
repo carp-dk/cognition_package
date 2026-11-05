@@ -14,8 +14,11 @@ class RPUILetterTappingActivityBody extends StatefulWidget {
 
   /// The [RPUILetterTappingActivityBody] constructor.
   const RPUILetterTappingActivityBody(
-      this.activity, this.eventLogger, this.onResultChange,
-      {super.key});
+    this.activity,
+    this.eventLogger,
+    this.onResultChange, {
+    super.key,
+  });
 
   @override
   RPUILetterTappingActivityBodyState createState() =>
@@ -65,7 +68,7 @@ class RPUILetterTappingActivityBodyState
     'F',
     'A',
     'A',
-    'B'
+    'B',
   ];
 
   @override
@@ -96,8 +99,9 @@ class RPUILetterTappingActivityBodyState
     await Future<dynamic>.delayed(const Duration(seconds: 2));
     for (String letter in mocaLetterList) {
       if (!mounted) break;
-      await player
-          .setAsset('../packages/cognition_package/assets/sounds/$letter.mp3');
+      await player.setAsset(
+        '../packages/cognition_package/assets/sounds/$letter.mp3',
+      );
       await player.play();
 
       updateLetter(letter);
@@ -127,8 +131,10 @@ class RPUILetterTappingActivityBodyState
       } else {
         s = '${mocaLetterList.getRange(0, letterIndex - 2)} >A< ${mocaLetterList.getRange(letterIndex - 1, mocaLetterList.length)}';
       }
-      widget.eventLogger
-          .addWrongGesture('Missed button tap', 'Did not press button on: $s');
+      widget.eventLogger.addWrongGesture(
+        'Missed button tap',
+        'Did not press button on: $s',
+      );
     }
     lastWasTapped = wasTapped;
     wasTapped = false;
@@ -173,20 +179,23 @@ class RPUILetterTappingActivityBodyState
                 height: 250,
                 width: 250,
                 decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: AssetImage(
-                            'packages/cognition_package/assets/images/letter_tapping.png'))),
+                  image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: AssetImage(
+                      'packages/cognition_package/assets/images/letter_tapping.png',
+                    ),
+                  ),
+                ),
               ),
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width / 2,
               child: OutlinedButton(
                 style: ButtonStyle(
-                  padding: MaterialStateProperty.all(
+                  padding: WidgetStateProperty.all(
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                   ),
-                  shape: MaterialStateProperty.all(
+                  shape: WidgetStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6),
                     ),
@@ -221,51 +230,67 @@ class RPUILetterTappingActivityBodyState
                         '>$currentLetter<'
                         '${mocaLetterList.getRange(letterIndex + 1, mocaLetterList.length)}';
                     widget.eventLogger.addWrongGesture(
-                        'Button tap', 'Pressed button on wrong letter: $s');
+                      'Button tap',
+                      'Pressed button on wrong letter: $s',
+                    );
                   }
                   // A - A
                   if (lastLetter == 'A' && currentLetter == 'A') {
                     if (!lastWasTapped) {
-                      widget.eventLogger.addCorrectGesture('Button tap',
-                          'Tapped letter with a delay: ${mocaLetterList.getRange(0, letterIndex - 1)} >A< ${mocaLetterList.getRange(letterIndex, mocaLetterList.length)}');
+                      widget.eventLogger.addCorrectGesture(
+                        'Button tap',
+                        'Tapped letter with a delay: ${mocaLetterList.getRange(0, letterIndex - 1)} >A< ${mocaLetterList.getRange(letterIndex, mocaLetterList.length)}',
+                      );
                       lastWasTapped = true;
                     } else if (lastWasTapped && !wasTapped) {
-                      widget.eventLogger.addCorrectGesture('Button tap',
-                          'Tapped letter without delay: ${mocaLetterList.getRange(0, letterIndex)} >A< ${mocaLetterList.getRange(letterIndex + 1, mocaLetterList.length)}');
+                      widget.eventLogger.addCorrectGesture(
+                        'Button tap',
+                        'Tapped letter without delay: ${mocaLetterList.getRange(0, letterIndex)} >A< ${mocaLetterList.getRange(letterIndex + 1, mocaLetterList.length)}',
+                      );
                       wasTapped = true;
                     } else {
                       errors += 1;
-                      widget.eventLogger.addWrongGesture('Button tap',
-                          'Tapped letter too many times: ${mocaLetterList.getRange(0, letterIndex)} >A< ${mocaLetterList.getRange(letterIndex + 1, mocaLetterList.length)}');
+                      widget.eventLogger.addWrongGesture(
+                        'Button tap',
+                        'Tapped letter too many times: ${mocaLetterList.getRange(0, letterIndex)} >A< ${mocaLetterList.getRange(letterIndex + 1, mocaLetterList.length)}',
+                      );
                     }
                   }
                   // A - X
                   if (lastLetter == 'A' && currentLetter != 'A') {
                     if (lastWasTapped) {
                       errors += 1;
-                      widget.eventLogger.addWrongGesture('Button tap',
-                          'Tapped letter too many times: ${mocaLetterList.getRange(0, letterIndex - 1)} >A< ${mocaLetterList.getRange(letterIndex, mocaLetterList.length)}');
+                      widget.eventLogger.addWrongGesture(
+                        'Button tap',
+                        'Tapped letter too many times: ${mocaLetterList.getRange(0, letterIndex - 1)} >A< ${mocaLetterList.getRange(letterIndex, mocaLetterList.length)}',
+                      );
                     } else {
                       lastWasTapped = true;
-                      widget.eventLogger.addCorrectGesture('Button tap',
-                          'Tapped letter with a delay: ${mocaLetterList.getRange(0, letterIndex - 1)} >A< ${mocaLetterList.getRange(letterIndex, mocaLetterList.length)}');
+                      widget.eventLogger.addCorrectGesture(
+                        'Button tap',
+                        'Tapped letter with a delay: ${mocaLetterList.getRange(0, letterIndex - 1)} >A< ${mocaLetterList.getRange(letterIndex, mocaLetterList.length)}',
+                      );
                     }
                   }
                   // X - A
                   if (lastLetter != 'A' && currentLetter == 'A') {
                     if (wasTapped) {
                       errors += 1;
-                      widget.eventLogger.addWrongGesture('Button tap',
-                          'Tapped letter too many times: ${mocaLetterList.getRange(0, letterIndex - 1)} >A< ${mocaLetterList.getRange(letterIndex + 1, mocaLetterList.length)}');
+                      widget.eventLogger.addWrongGesture(
+                        'Button tap',
+                        'Tapped letter too many times: ${mocaLetterList.getRange(0, letterIndex - 1)} >A< ${mocaLetterList.getRange(letterIndex + 1, mocaLetterList.length)}',
+                      );
                     } else {
                       wasTapped = true;
-                      widget.eventLogger.addCorrectGesture('Button tap',
-                          'Tapped letter without delay: ${mocaLetterList.getRange(0, letterIndex)} >A< ${mocaLetterList.getRange(letterIndex + 1, mocaLetterList.length)}');
+                      widget.eventLogger.addCorrectGesture(
+                        'Button tap',
+                        'Tapped letter without delay: ${mocaLetterList.getRange(0, letterIndex)} >A< ${mocaLetterList.getRange(letterIndex + 1, mocaLetterList.length)}',
+                      );
                     }
                   }
                 },
               ),
-            )
+            ),
           ],
         );
       case ActivityStatus.Result:

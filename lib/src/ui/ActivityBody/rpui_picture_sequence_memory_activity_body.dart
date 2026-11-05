@@ -14,8 +14,11 @@ class RPUIPictureSequenceMemoryActivityBody extends StatefulWidget {
 
   /// The [RPUIPictureSequenceMemoryActivityBody] constructor.
   const RPUIPictureSequenceMemoryActivityBody(
-      this.activity, this.eventLogger, this.onResultChange,
-      {super.key});
+    this.activity,
+    this.eventLogger,
+    this.onResultChange, {
+    super.key,
+  });
 
   @override
   RPUIPictureSequenceMemoryActivityBodyState createState() =>
@@ -81,24 +84,33 @@ class RPUIPictureSequenceMemoryActivityBodyState
                 padding: const EdgeInsets.all(20),
                 child: RichText(
                   text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
-                        TextSpan(
-                            text: locale?.translate(
-                                    'picture_sequence.once_memorized') ??
-                                "Once memorized click the",
-                            style: const TextStyle(fontSize: 16)),
-                        TextSpan(
-                            text:
-                                " '${locale?.translate('start') ?? 'Start'}' ",
-                            style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold)),
-                        TextSpan(
-                            text: locale?.translate(
-                                    'picture_sequence.images_change_positions') ??
-                                "button and the images will change positions.",
-                            style: const TextStyle(fontSize: 16)),
-                      ]),
+                    style: DefaultTextStyle.of(context).style,
+                    children: <TextSpan>[
+                      TextSpan(
+                        text:
+                            locale?.translate(
+                              'picture_sequence.once_memorized',
+                            ) ??
+                            "Once memorized click the",
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      TextSpan(
+                        text: " '${locale?.translate('start') ?? 'Start'}' ",
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      TextSpan(
+                        text:
+                            locale?.translate(
+                              'picture_sequence.images_change_positions',
+                            ) ??
+                            "button and the images will change positions.",
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    ],
+                  ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 10,
                   textAlign: TextAlign.center,
@@ -108,19 +120,25 @@ class RPUIPictureSequenceMemoryActivityBodyState
                 padding: const EdgeInsets.all(20),
                 child: RichText(
                   text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
-                        TextSpan(
-                            text: locale?.translate(
-                                    'picture_sequence.drag_and_drop') ??
-                                "Drag and drop the images to their original positions and press",
-                            style: const TextStyle(fontSize: 16)),
-                        TextSpan(
-                            text:
-                                " '${locale?.translate('guess') ?? 'Guess'}'.",
-                            style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold)),
-                      ]),
+                    style: DefaultTextStyle.of(context).style,
+                    children: <TextSpan>[
+                      TextSpan(
+                        text:
+                            locale?.translate(
+                              'picture_sequence.drag_and_drop',
+                            ) ??
+                            "Drag and drop the images to their original positions and press",
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      TextSpan(
+                        text: " '${locale?.translate('guess') ?? 'Guess'}'.",
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 10,
                   textAlign: TextAlign.center,
@@ -132,10 +150,13 @@ class RPUIPictureSequenceMemoryActivityBodyState
                   height: 200,
                   width: 200,
                   decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: AssetImage(
-                              'packages/cognition_package/assets/images/picture_sequence.png'))),
+                    image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: AssetImage(
+                        'packages/cognition_package/assets/images/picture_sequence.png',
+                      ),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(
@@ -158,19 +179,20 @@ class RPUIPictureSequenceMemoryActivityBodyState
                   },
                 ),
               ),
-              const SizedBox(
-                height: 100,
-              ),
+              const SizedBox(height: 100),
             ],
           ),
         );
       case ActivityStatus.Test:
         return Scaffold(
-            body: Center(
-                child: PictureSequenceMemory(
-                    sWidget: widget,
-                    numberOfTests: widget.activity.numberOfTests,
-                    numberOfPics: widget.activity.numberOfPics)));
+          body: Center(
+            child: PictureSequenceMemory(
+              sWidget: widget,
+              numberOfTests: widget.activity.numberOfTests,
+              numberOfPics: widget.activity.numberOfPics,
+            ),
+          ),
+        );
       case ActivityStatus.Result:
         if (widget.activity.includeResults) {
           return Center(
@@ -190,8 +212,6 @@ class RPUIPictureSequenceMemoryActivityBodyState
             ),
           );
         }
-      default:
-        return Container();
     }
   }
 }
@@ -200,11 +220,12 @@ class PictureSequenceMemory extends StatefulWidget {
   final RPUIPictureSequenceMemoryActivityBody sWidget;
   final int numberOfTests;
   final int numberOfPics;
-  const PictureSequenceMemory(
-      {super.key,
-      required this.sWidget,
-      required this.numberOfTests,
-      required this.numberOfPics});
+  const PictureSequenceMemory({
+    super.key,
+    required this.sWidget,
+    required this.numberOfTests,
+    required this.numberOfPics,
+  });
 
   @override
   PictureSequenceMemoryState createState() =>
@@ -255,12 +276,10 @@ class PictureSequenceMemoryState extends State<PictureSequenceMemory> {
   ScrollController scrollController = ScrollController();
 
   List<Picture> getPictures(int start, int end, int num) => List.generate(
-        num,
-        (index) => Picture(
-          name: index.toString(),
-          urlImage: urlImages[index + start],
-        ),
-      );
+    num,
+    (index) =>
+        Picture(name: index.toString(), urlImage: urlImages[index + start]),
+  );
 
   void resetTest() async {
     memorySeconds = 0;
@@ -302,15 +321,13 @@ class PictureSequenceMemoryState extends State<PictureSequenceMemory> {
     const oneSec = Duration(seconds: 1);
     memoryTimer = Timer.periodic(
       oneSec,
-      (Timer timer) => setState(
-        () {
-          if (seconds < 0) {
-            timer.cancel();
-          } else {
-            memorySeconds = memorySeconds + 1;
-          }
-        },
-      ),
+      (Timer timer) => setState(() {
+        if (seconds < 0) {
+          timer.cancel();
+        } else {
+          memorySeconds = memorySeconds + 1;
+        }
+      }),
     );
   }
 
@@ -340,15 +357,13 @@ class PictureSequenceMemoryState extends State<PictureSequenceMemory> {
     const oneSec = Duration(seconds: 1);
     picTimer = Timer.periodic(
       oneSec,
-      (Timer timer) => setState(
-        () {
-          if (seconds < 0) {
-            timer.cancel();
-          } else {
-            seconds = seconds + 1;
-          }
-        },
-      ),
+      (Timer timer) => setState(() {
+        if (seconds < 0) {
+          timer.cancel();
+        } else {
+          seconds = seconds + 1;
+        }
+      }),
     );
   }
 
@@ -379,16 +394,18 @@ class PictureSequenceMemoryState extends State<PictureSequenceMemory> {
       pictureMovesList.add(moves);
       sWidget.eventLogger.testEnded();
 
-      pictureSequenceScore =
-          sWidget.activity.calculateScore({'pairs': pictureScoreList});
+      pictureSequenceScore = sWidget.activity.calculateScore({
+        'pairs': pictureScoreList,
+      });
       var pictureSequenceResult = RPPictureSequenceResult.fromResults(
-          pictureMovesList,
-          pictureScoreList,
-          pictureTimesList,
-          memorySecondList,
-          pictureSequenceScore,
-          original,
-          pictures);
+        pictureMovesList,
+        pictureScoreList,
+        pictureTimesList,
+        memorySecondList,
+        pictureSequenceScore,
+        original,
+        pictures,
+      );
 
       sWidget.onResultChange(pictureSequenceResult.results);
 
@@ -474,98 +491,115 @@ class PictureSequenceMemoryState extends State<PictureSequenceMemory> {
     );
 
     return Scaffold(
-        body: Center(
-            child: Column(children: [
-      SizedBox(
-        height: MediaQuery.of(context).size.height / 1.5,
-        width: MediaQuery.of(context).size.width,
-        child: !guess
-            ? !waiting
-                ? Center(child: wrap)
-                : Center(
-                    child: Text(
-                    locale?.translate('wait') ?? 'Wait',
-                    style: const TextStyle(fontSize: 25),
-                  ))
-            : !waiting
-                ? Center(child: wrap)
-                : Center(
-                    child: Text(
-                    locale?.translate('wait') ?? 'Wait',
-                    style: const TextStyle(fontSize: 25),
-                  )),
-      ),
-      SizedBox(
-        width: MediaQuery.of(context).size.width / 2,
-        child: !guess
-            ? waiting
-                ? Container()
-                : Column(children: [
-                    OutlinedButton(
+      body: Center(
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 1.5,
+              width: MediaQuery.of(context).size.width,
+              child: !guess
+                  ? !waiting
+                        ? Center(child: wrap)
+                        : Center(
+                            child: Text(
+                              locale?.translate('wait') ?? 'Wait',
+                              style: const TextStyle(fontSize: 25),
+                            ),
+                          )
+                  : !waiting
+                  ? Center(child: wrap)
+                  : Center(
+                      child: Text(
+                        locale?.translate('wait') ?? 'Wait',
+                        style: const TextStyle(fontSize: 25),
+                      ),
+                    ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 2,
+              child: !guess
+                  ? waiting
+                        ? Container()
+                        : Column(
+                            children: [
+                              OutlinedButton(
+                                style: ButtonStyle(
+                                  padding: WidgetStateProperty.all(
+                                    const EdgeInsets.symmetric(
+                                      horizontal: 24,
+                                      vertical: 16,
+                                    ),
+                                  ),
+                                  shape: WidgetStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  startTest();
+                                },
+                                child: Text(
+                                  locale?.translate('start') ?? 'Start',
+                                  style: const TextStyle(fontSize: 18),
+                                ),
+                              ),
+                            ],
+                          )
+                  : finished
+                  ? Center(
+                      child: Text(
+                        locale?.translate('continue') ??
+                            "Click 'Next' to continue",
+                        style: const TextStyle(fontSize: 18),
+                      ),
+                    )
+                  : OutlinedButton(
                       style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
+                        padding: WidgetStateProperty.all(
                           const EdgeInsets.symmetric(
-                              horizontal: 24, vertical: 16),
+                            horizontal: 24,
+                            vertical: 16,
+                          ),
                         ),
-                        shape: MaterialStateProperty.all(
+                        shape: WidgetStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(6),
                           ),
                         ),
                       ),
                       onPressed: () {
-                        startTest();
+                        makeGuess();
                       },
                       child: Text(
-                        locale?.translate('start') ?? 'Start',
+                        locale?.translate('guess') ?? 'Guess',
                         style: const TextStyle(fontSize: 18),
                       ),
                     ),
-                  ])
-            : finished
-                ? Center(
-                    child: Text(
-                    locale?.translate('continue') ?? "Click 'Next' to continue",
-                    style: const TextStyle(fontSize: 18),
-                  ))
-                : OutlinedButton(
-                    style: ButtonStyle(
-                      padding: MaterialStateProperty.all(
-                        const EdgeInsets.symmetric(
-                            horizontal: 24, vertical: 16),
-                      ),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                      ),
-                    ),
-                    onPressed: () {
-                      makeGuess();
-                    },
-                    child: Text(
-                      locale?.translate('guess') ?? 'Guess',
-                      style: const TextStyle(fontSize: 18),
-                    ),
-                  ),
+            ),
+          ],
+        ),
       ),
-    ])));
+    );
   }
 
   Widget buildPicture(int index, Picture picture) => SizedBox(
-      height: 100,
-      width: 100,
-      key: ValueKey(picture),
-      child: ReorderableDragStartListener(
-          index: index,
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                image: DecorationImage(
-                  image: AssetImage(picture.urlImage),
-                  fit: BoxFit.cover,
-                )),
-          )));
+    height: 100,
+    width: 100,
+    key: ValueKey(picture),
+    child: ReorderableDragStartListener(
+      index: index,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
+          image: DecorationImage(
+            image: AssetImage(picture.urlImage),
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    ),
+  );
 }
 
 class Picture {
@@ -574,8 +608,5 @@ class Picture {
   String left = "";
   String right = "";
 
-  Picture({
-    required this.name,
-    required this.urlImage,
-  });
+  Picture({required this.name, required this.urlImage});
 }

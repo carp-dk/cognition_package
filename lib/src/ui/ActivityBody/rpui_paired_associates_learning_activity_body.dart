@@ -45,7 +45,7 @@ class RPUIPairedAssociatesLearningActivityBodyState
     'packages/cognition_package/assets/images/nothing.png',
     'packages/cognition_package/assets/images/nothing.png',
     'packages/cognition_package/assets/images/nothing.png',
-    'packages/cognition_package/assets/images/nothing.png'
+    'packages/cognition_package/assets/images/nothing.png',
   ]; //a container can be empty, default values, or have a shape
   List<String> containerHide = [
     'packages/cognition_package/assets/images/hidden.png',
@@ -53,25 +53,25 @@ class RPUIPairedAssociatesLearningActivityBodyState
     'packages/cognition_package/assets/images/hidden.png',
     'packages/cognition_package/assets/images/hidden.png',
     'packages/cognition_package/assets/images/hidden.png',
-    'packages/cognition_package/assets/images/hidden.png'
+    'packages/cognition_package/assets/images/hidden.png',
   ];
   List<String> shapes0 = [
     'packages/cognition_package/assets/images/shape1.png',
   ];
   List<String> shapes1 = [
     'packages/cognition_package/assets/images/shape1.png',
-    'packages/cognition_package/assets/images/shape2.png'
+    'packages/cognition_package/assets/images/shape2.png',
   ]; //colors for inital logic setup
   List<String> shapes2 = [
     'packages/cognition_package/assets/images/shape1.png',
     'packages/cognition_package/assets/images/shape2.png',
-    'packages/cognition_package/assets/images/shape3.png'
+    'packages/cognition_package/assets/images/shape3.png',
   ];
   List<String> shapes3 = [
     'packages/cognition_package/assets/images/shape1.png',
     'packages/cognition_package/assets/images/shape2.png',
     'packages/cognition_package/assets/images/shape3.png',
-    'packages/cognition_package/assets/images/shape4.png'
+    'packages/cognition_package/assets/images/shape4.png',
   ];
   List<String> shapes4 = [
     'packages/cognition_package/assets/images/shape1.png',
@@ -135,18 +135,21 @@ class RPUIPairedAssociatesLearningActivityBodyState
     }
     tempMatch = level[_random.nextInt(level.length)]; //fill object with content
     List<int> containing = []; //list of containers that already has content
-    int chosenContainer =
-        _random.nextInt(containers.length); //container to fill with content
+    int chosenContainer = _random.nextInt(
+      containers.length,
+    ); //container to fill with content
 
     for (int i = 0; i < level.length; i++) {
       //for every possible shape, fill a container with it
       while (containing.contains(chosenContainer)) {
         //be sure not to fill same containers
-        chosenContainer =
-            _random.nextInt(containers.length); //choose random containers
+        chosenContainer = _random.nextInt(
+          containers.length,
+        ); //choose random containers
       }
       containing.add(
-          chosenContainer); //add to keep track of containers with altered content
+        chosenContainer,
+      ); //add to keep track of containers with altered content
       containers[chosenContainer] = level[i]; //apply change to containers
     }
   }
@@ -187,10 +190,13 @@ class RPUIPairedAssociatesLearningActivityBodyState
       setState(() {
         correct = 1; //change icon for feedback - 1 is a tick, 2 is a cross
       });
-      widget.eventLogger.addCorrectGesture('Button tap',
-          'The tile tapped and match object matched. Level $successes succeeded, by pressing button number $buttonNum.');
+      widget.eventLogger.addCorrectGesture(
+        'Button tap',
+        'The tile tapped and match object matched. Level $successes succeeded, by pressing button number $buttonNum.',
+      );
       await Future<dynamic>.delayed(
-          const Duration(seconds: 1)); //display feedback
+        const Duration(seconds: 1),
+      ); //display feedback
       if (successes < levels.length && mounted) {
         //as long as there are more levels, go to next.
         setState(() {
@@ -208,15 +214,18 @@ class RPUIPairedAssociatesLearningActivityBodyState
           activityStatus = ActivityStatus
               .Result; //if all levels completed within time, end the test.
         });
-        widget.eventLogger.addWrongGesture('Button tap',
-            'The tile tapped and match object did not match. Level $successes failed, by pressing button number $buttonNum. Retrying level.');
+        widget.eventLogger.addWrongGesture(
+          'Button tap',
+          'The tile tapped and match object did not match. Level $successes failed, by pressing button number $buttonNum. Retrying level.',
+        );
       }
     } else {
       setState(() {
         correct = 2; //change icon for feedback - 2 is a cross
       });
       await Future<dynamic>.delayed(
-          const Duration(seconds: 1)); //display feedback
+        const Duration(seconds: 1),
+      ); //display feedback
       //if a mistake has been made, repeat current step.
       mistakes++;
       if (mounted) {
@@ -261,20 +270,23 @@ class RPUIPairedAssociatesLearningActivityBodyState
                 height: MediaQuery.of(context).size.height / 2.5,
                 width: MediaQuery.of(context).size.width / 1.1,
                 decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: AssetImage(
-                            'packages/cognition_package/assets/images/PALintro.png'))),
+                  image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: AssetImage(
+                      'packages/cognition_package/assets/images/PALintro.png',
+                    ),
+                  ),
+                ),
               ),
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width / 2,
               child: OutlinedButton(
                 style: ButtonStyle(
-                  padding: MaterialStateProperty.all(
+                  padding: WidgetStateProperty.all(
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                   ),
-                  shape: MaterialStateProperty.all(
+                  shape: WidgetStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6),
                     ),
@@ -293,78 +305,78 @@ class RPUIPairedAssociatesLearningActivityBodyState
         );
       case ActivityStatus.Test:
         return Column(
-            //layout - consists of a column with 5 rows sctructuring the test screen. can rotate screen
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly, //upper most
-                  children: <Widget>[
-                    _makeButton(0),
-                  ]),
-              Row(
-                  //double row 1
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    _makeButton(1),
-                    Container(
-                      width: 30,
-                    ),
-                    _makeButton(2),
-                  ]),
-              Row(
-                  //row with container for object
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Container(
-                      decoration: objectDecor(),
-                      height: 60,
-                      width: 60,
-                      child: _getIcon(),
-                    )
-                  ]),
-              Row(
-                  //double row 2
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    _makeButton(3),
-                    Container(
-                      width: 30,
-                    ),
-                    _makeButton(4),
-                  ]),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly, //lower most
-                  children: <Widget>[
-                    _makeButton(5),
-                  ]),
-            ]);
+          //layout - consists of a column with 5 rows sctructuring the test screen. can rotate screen
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly, //upper most
+              children: <Widget>[_makeButton(0)],
+            ),
+            Row(
+              //double row 1
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                _makeButton(1),
+                Container(width: 30),
+                _makeButton(2),
+              ],
+            ),
+            Row(
+              //row with container for object
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Container(
+                  decoration: objectDecor(),
+                  height: 60,
+                  width: 60,
+                  child: _getIcon(),
+                ),
+              ],
+            ),
+            Row(
+              //double row 2
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                _makeButton(3),
+                Container(width: 30),
+                _makeButton(4),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly, //lower most
+              children: <Widget>[_makeButton(5)],
+            ),
+          ],
+        );
       case ActivityStatus.Result:
         return Container(
-            padding: const EdgeInsets.all(20),
-            child: Row(
+          padding: const EdgeInsets.all(20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                            locale?.translate('test_done') ??
-                                "The test is done.",
-                            style: const TextStyle(fontSize: 22)),
-                        Text(
-                            '${locale?.translate('correct') ?? 'Correct'}: $successes, ${locale?.translate('wrong') ?? 'Wrong'}: $mistakes',
-                            style: const TextStyle(fontSize: 22)),
-                      ]),
-                ]));
+                  Text(
+                    locale?.translate('test_done') ?? "The test is done.",
+                    style: const TextStyle(fontSize: 22),
+                  ),
+                  Text(
+                    '${locale?.translate('correct') ?? 'Correct'}: $successes, ${locale?.translate('wrong') ?? 'Wrong'}: $mistakes',
+                    style: const TextStyle(fontSize: 22),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
     }
   }
 
   BoxDecoration objectDecor() {
     return BoxDecoration(
       //color: matchObject,
-      border: Border.all(
-        width: 3,
-      ),
+      border: Border.all(width: 3),
       borderRadius: BorderRadius.circular(5),
       image: DecorationImage(fit: BoxFit.fill, image: AssetImage(matchObject)),
     );
@@ -385,23 +397,28 @@ class RPUIPairedAssociatesLearningActivityBodyState
   Widget _makeButton(int buttonNumber) {
     //make material buttons for outter tiles to match with
     return (Container(
-        height: 60,
-        width: 60,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-              fit: BoxFit.fill, image: AssetImage(containerHide[buttonNumber])),
+      height: 60,
+      width: 60,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.fill,
+          image: AssetImage(containerHide[buttonNumber]),
         ),
-        child: MaterialButton(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-              side: const BorderSide(color: Colors.black, width: 3)),
-          onPressed: () {
-            if (!buttonsDisabled) {
-              buttonsDisabled = true;
-              checkMatchClick(
-                  buttonNumber); //check if click was correct if all tiles have been peaked
-            }
-          },
-        )));
+      ),
+      child: MaterialButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+          side: const BorderSide(color: Colors.black, width: 3),
+        ),
+        onPressed: () {
+          if (!buttonsDisabled) {
+            buttonsDisabled = true;
+            checkMatchClick(
+              buttonNumber,
+            ); //check if click was correct if all tiles have been peaked
+          }
+        },
+      ),
+    ));
   }
 }

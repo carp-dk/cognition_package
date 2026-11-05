@@ -13,11 +13,12 @@ class RPWordRecallResult extends RPActivityResult {
   ///  * [timeTaken]: time taken to recall
   ///  * [score]: score of the test calculated in model class
   factory RPWordRecallResult.fromResults(
-      List<String> wordList,
-      List<String> resultList1,
-      List<String> resultList2,
-      List<dynamic> timesTaken,
-      int score) {
+    List<String> wordList,
+    List<String> resultList1,
+    List<String> resultList2,
+    List<dynamic> timesTaken,
+    int score,
+  ) {
     var res = RPWordRecallResult(identifier: 'WordRecallResult');
     res.results.addAll({'wordlist': wordList});
     res.results.addAll({'resultlist1': resultList1});

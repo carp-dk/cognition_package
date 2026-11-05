@@ -84,7 +84,8 @@ class RPUIVisualArrayChangeActivityBodyState
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Text(
                 locale?.translate(
-                        'visual_array.shapes_will_change_positions') ??
+                      'visual_array.shapes_will_change_positions',
+                    ) ??
                     "Once you are ready, press 'Start' and the shapes will change positions.",
                 style: const TextStyle(fontSize: 16),
                 overflow: TextOverflow.ellipsis,
@@ -109,20 +110,23 @@ class RPUIVisualArrayChangeActivityBodyState
                 height: 250,
                 width: 250,
                 decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: AssetImage(
-                            'packages/cognition_package/assets/images/shape_recall.png'))),
+                  image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: AssetImage(
+                      'packages/cognition_package/assets/images/shape_recall.png',
+                    ),
+                  ),
+                ),
               ),
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width / 2,
               child: OutlinedButton(
                 style: ButtonStyle(
-                  padding: MaterialStateProperty.all(
+                  padding: WidgetStateProperty.all(
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                   ),
-                  shape: MaterialStateProperty.all(
+                  shape: WidgetStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6),
                     ),
@@ -147,11 +151,13 @@ class RPUIVisualArrayChangeActivityBodyState
       case ActivityStatus.Test:
         return Scaffold(
           body: Center(
-              child: _VisualArrayChange(
-                  sWidget: widget,
-                  numberOfTests: widget.activity.numberOfTests,
-                  numberOfShapes: widget.activity.numberOfShapes,
-                  waitTime: widget.activity.waitTime)),
+            child: _VisualArrayChange(
+              sWidget: widget,
+              numberOfTests: widget.activity.numberOfTests,
+              numberOfShapes: widget.activity.numberOfShapes,
+              waitTime: widget.activity.waitTime,
+            ),
+          ),
         );
       case ActivityStatus.Result:
         return Center(
@@ -173,11 +179,12 @@ class _VisualArrayChange extends StatefulWidget {
   final int numberOfShapes;
   final int waitTime;
 
-  const _VisualArrayChange(
-      {required this.sWidget,
-      required this.numberOfTests,
-      required this.numberOfShapes,
-      required this.waitTime});
+  const _VisualArrayChange({
+    required this.sWidget,
+    required this.numberOfTests,
+    required this.numberOfShapes,
+    required this.waitTime,
+  });
 
   @override
   _VisualArrayChangeState createState() =>
@@ -268,39 +275,46 @@ class _VisualArrayChangeState extends State<_VisualArrayChange> {
     for (int i = 0; i < numberOfShapes; i++) {
       shapes.add(
         Positioned(
-            left: avatarSize +
-                (constraints.biggest.width - 2 * avatarSize) /
-                    100.0 *
-                    rotation[i],
-            top: avatarSize +
-                (constraints.biggest.height - 2 * avatarSize) /
-                    100.0 *
-                    rotation[i + 1],
-            child: CircleAvatar(
-                radius: avatarSize / 2,
-                backgroundColor: Colors.transparent,
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(20)),
-                      image: DecorationImage(
-                          image: AssetImage(shape[i][color[i]].urlImage),
-                          fit: BoxFit.scaleDown)),
-                ))),
+          left:
+              avatarSize +
+              (constraints.biggest.width - 2 * avatarSize) /
+                  100.0 *
+                  rotation[i],
+          top:
+              avatarSize +
+              (constraints.biggest.height - 2 * avatarSize) /
+                  100.0 *
+                  rotation[i + 1],
+          child: CircleAvatar(
+            radius: avatarSize / 2,
+            backgroundColor: Colors.transparent,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                image: DecorationImage(
+                  image: AssetImage(shape[i][color[i]].urlImage),
+                  fit: BoxFit.scaleDown,
+                ),
+              ),
+            ),
+          ),
+        ),
       );
     }
     return shapes;
   }
 
   _VisualArrayChangeState(
-      this.sWidget, this.numberOfTests, this.numberOfShapes, this.waitTime);
+    this.sWidget,
+    this.numberOfTests,
+    this.numberOfShapes,
+    this.waitTime,
+  );
   List<Shape> getPictures(List<String> list) => List.generate(
-        5,
-        (index) => Shape(
-          name: index.toString(),
-          urlImage: list[index],
-          index: index,
-        ),
-      );
+    5,
+    (index) =>
+        Shape(name: index.toString(), urlImage: list[index], index: index),
+  );
 
   @override
   initState() {
@@ -331,12 +345,14 @@ class _VisualArrayChangeState extends State<_VisualArrayChange> {
   List<int> getColor() => List.generate(5, (index) => rng.nextInt(5));
 
   List<EdgeInsets> getPadding() => List.generate(
-      4,
-      (index) => EdgeInsets.fromLTRB(
-          rng.nextInt(300).toDouble(),
-          rng.nextInt(100).toDouble(),
-          rng.nextInt(300).toDouble(),
-          rng.nextInt(100).toDouble()));
+    4,
+    (index) => EdgeInsets.fromLTRB(
+      rng.nextInt(300).toDouble(),
+      rng.nextInt(100).toDouble(),
+      rng.nextInt(300).toDouble(),
+      rng.nextInt(100).toDouble(),
+    ),
+  );
 
   void resetTest() async {
     setState(() {
@@ -392,15 +408,13 @@ class _VisualArrayChangeState extends State<_VisualArrayChange> {
     const oneSec = Duration(seconds: 1);
     timer = Timer.periodic(
       oneSec,
-      (Timer timer) => setState(
-        () {
-          if (seconds < 0) {
-            timer.cancel();
-          } else {
-            seconds = seconds + 1;
-          }
-        },
-      ),
+      (Timer timer) => setState(() {
+        if (seconds < 0) {
+          timer.cancel();
+        } else {
+          seconds = seconds + 1;
+        }
+      }),
     );
   }
 
@@ -410,15 +424,13 @@ class _VisualArrayChangeState extends State<_VisualArrayChange> {
     const oneSec = Duration(seconds: 1);
     memoryTimer = Timer.periodic(
       oneSec,
-      (Timer timer) => setState(
-        () {
-          if (seconds < 0) {
-            timer.cancel();
-          } else {
-            memorySeconds = memorySeconds + 1;
-          }
-        },
-      ),
+      (Timer timer) => setState(() {
+        if (seconds < 0) {
+          timer.cancel();
+        } else {
+          memorySeconds = memorySeconds + 1;
+        }
+      }),
     );
   }
 
@@ -433,10 +445,17 @@ class _VisualArrayChangeState extends State<_VisualArrayChange> {
         right += 1;
         sWidget.eventLogger.testEnded();
 
-        visualArrayChangeScore =
-            sWidget.activity.calculateScore({'correct': right, 'wrong': wrong});
+        visualArrayChangeScore = sWidget.activity.calculateScore({
+          'correct': right,
+          'wrong': wrong,
+        });
         var visualArrayChangeResult = RPVisualArrayChangeResult.fromResults(
-            wrong, right, times, memoryTimes, visualArrayChangeScore);
+          wrong,
+          right,
+          times,
+          memoryTimes,
+          visualArrayChangeScore,
+        );
 
         sWidget.onResultChange(visualArrayChangeResult.results);
         if (sWidget.activity.includeResults) {
@@ -454,10 +473,17 @@ class _VisualArrayChangeState extends State<_VisualArrayChange> {
       wrong += 1;
       if (viscurrentNum > numberOfTests) {
         sWidget.eventLogger.testEnded();
-        var visualArrayChangeScore =
-            sWidget.activity.calculateScore({'correct': right, 'wrong': wrong});
+        var visualArrayChangeScore = sWidget.activity.calculateScore({
+          'correct': right,
+          'wrong': wrong,
+        });
         var visualArrayChangeResult = RPVisualArrayChangeResult.fromResults(
-            wrong, right, times, memoryTimes, visualArrayChangeScore);
+          wrong,
+          right,
+          times,
+          memoryTimes,
+          visualArrayChangeScore,
+        );
 
         sWidget.onResultChange(visualArrayChangeResult.results);
         if (sWidget.activity.includeResults) {
@@ -481,10 +507,17 @@ class _VisualArrayChangeState extends State<_VisualArrayChange> {
         visualScore += 1;
         right += 1;
         sWidget.eventLogger.testEnded();
-        var visualArrayChangeScore =
-            sWidget.activity.calculateScore({'correct': right, 'wrong': wrong});
+        var visualArrayChangeScore = sWidget.activity.calculateScore({
+          'correct': right,
+          'wrong': wrong,
+        });
         var visualArrayChangeResult = RPVisualArrayChangeResult.fromResults(
-            wrong, right, times, memoryTimes, visualArrayChangeScore);
+          wrong,
+          right,
+          times,
+          memoryTimes,
+          visualArrayChangeScore,
+        );
 
         sWidget.onResultChange(visualArrayChangeResult.results);
         if (sWidget.activity.includeResults) {
@@ -501,10 +534,17 @@ class _VisualArrayChangeState extends State<_VisualArrayChange> {
     } else {
       if (viscurrentNum > numberOfTests) {
         sWidget.eventLogger.testEnded();
-        var visualArrayChangeScore =
-            sWidget.activity.calculateScore({'correct': right, 'wrong': wrong});
+        var visualArrayChangeScore = sWidget.activity.calculateScore({
+          'correct': right,
+          'wrong': wrong,
+        });
         var visualArrayChangeResult = RPVisualArrayChangeResult.fromResults(
-            wrong, right, times, memoryTimes, visualArrayChangeScore);
+          wrong,
+          right,
+          times,
+          memoryTimes,
+          visualArrayChangeScore,
+        );
 
         sWidget.onResultChange(visualArrayChangeResult.results);
         if (sWidget.activity.includeResults) {
@@ -527,74 +567,92 @@ class _VisualArrayChangeState extends State<_VisualArrayChange> {
   Widget build(BuildContext context) {
     var locale = CPLocalizations.of(context);
     return Scaffold(
-        body: Center(
-            child: Column(children: [
-      SizedBox(
-        height: MediaQuery.of(context).size.height - 270,
-        width: MediaQuery.of(context).size.width - 20,
-        child: !waiting
-            ? LayoutBuilder(builder: (context, constraints) {
-                const avatarSize = 100;
-                return Stack(
-                  children: makeShapes(numberOfShapes, constraints, avatarSize),
-                );
-              })
-            : Center(
-                child: Text(
-                locale?.translate('wait') ?? 'Wait',
-                style: const TextStyle(fontSize: 25),
-              )),
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
-        child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: !guess
-                ? waiting
-                    ? Container()
-                    : Column(children: [
-                        OutlinedButton(
-                          style: ButtonStyle(
-                            padding: MaterialStateProperty.all(
-                              const EdgeInsets.symmetric(
-                                  horizontal: 24, vertical: 8),
-                            ),
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                            ),
+      body: Center(
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height - 270,
+              width: MediaQuery.of(context).size.width - 20,
+              child: !waiting
+                  ? LayoutBuilder(
+                      builder: (context, constraints) {
+                        const avatarSize = 100;
+                        return Stack(
+                          children: makeShapes(
+                            numberOfShapes,
+                            constraints,
+                            avatarSize,
                           ),
-                          onPressed: () {
-                            startTest();
-                          },
-                          child: Text(
-                            locale?.translate('start') ?? 'Start',
-                            style: const TextStyle(fontSize: 18),
-                          ),
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.only(top: 6),
-                            child: Text(
-                                '${locale?.translate('task') ?? 'task'} $viscurrentNum/$numberOfTests'))
-                      ])
-                : finished
+                        );
+                      },
+                    )
+                  : Center(
+                      child: Text(
+                        locale?.translate('wait') ?? 'Wait',
+                        style: const TextStyle(fontSize: 25),
+                      ),
+                    ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: !guess
+                    ? waiting
+                          ? Container()
+                          : Column(
+                              children: [
+                                OutlinedButton(
+                                  style: ButtonStyle(
+                                    padding: WidgetStateProperty.all(
+                                      const EdgeInsets.symmetric(
+                                        horizontal: 24,
+                                        vertical: 8,
+                                      ),
+                                    ),
+                                    shape: WidgetStateProperty.all(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    startTest();
+                                  },
+                                  child: Text(
+                                    locale?.translate('start') ?? 'Start',
+                                    style: const TextStyle(fontSize: 18),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 6),
+                                  child: Text(
+                                    '${locale?.translate('task') ?? 'task'} $viscurrentNum/$numberOfTests',
+                                  ),
+                                ),
+                              ],
+                            )
+                    : finished
                     ? Center(
                         child: Text(
-                        locale?.translate('continue') ??
-                            "Click 'Next' to continue",
-                        style: const TextStyle(fontSize: 18),
-                      ))
-                    : Row(children: [
-                        Padding(
+                          locale?.translate('continue') ??
+                              "Click 'Next' to continue",
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                      )
+                    : Row(
+                        children: [
+                          Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 50),
                             child: OutlinedButton(
                               style: ButtonStyle(
-                                padding: MaterialStateProperty.all(
+                                padding: WidgetStateProperty.all(
                                   const EdgeInsets.symmetric(
-                                      horizontal: 24, vertical: 16),
+                                    horizontal: 24,
+                                    vertical: 16,
+                                  ),
                                 ),
-                                shape: MaterialStateProperty.all(
+                                shape: WidgetStateProperty.all(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(6),
                                   ),
@@ -608,53 +666,71 @@ class _VisualArrayChangeState extends State<_VisualArrayChange> {
                                     "Same",
                                 style: const TextStyle(fontSize: 18),
                               ),
-                            )),
-                        OutlinedButton(
-                          style: ButtonStyle(
-                            padding: MaterialStateProperty.all(
-                              const EdgeInsets.symmetric(
-                                  horizontal: 24, vertical: 16),
                             ),
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(6),
+                          ),
+                          OutlinedButton(
+                            style: ButtonStyle(
+                              padding: WidgetStateProperty.all(
+                                const EdgeInsets.symmetric(
+                                  horizontal: 24,
+                                  vertical: 16,
+                                ),
+                              ),
+                              shape: WidgetStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
                               ),
                             ),
+                            onPressed: () {
+                              different();
+                            },
+                            child: Text(
+                              locale?.translate('visual_array.different') ??
+                                  "Different",
+                              style: const TextStyle(fontSize: 18),
+                            ),
                           ),
-                          onPressed: () {
-                            different();
-                          },
-                          child: Text(
-                            locale?.translate('visual_array.different') ??
-                                "Different",
-                            style: const TextStyle(fontSize: 18),
-                          ),
-                        ),
-                      ])),
-      )
-    ])));
+                        ],
+                      ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
-  Widget buildShape(int index, Shape picture, double left, double top,
-          double right, double bottom) =>
-      Padding(
-          padding: padding[picture.index],
-          child: Transform.rotate(
-              angle: 3.14 / rotation[picture.index],
-              child: SizedBox(
-                  height: 150,
-                  width: 50,
-                  key: ValueKey(picture),
-                  child: ReorderableDragStartListener(
-                      index: index,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(20)),
-                            image: DecorationImage(
-                                image: AssetImage(picture.urlImage),
-                                fit: BoxFit.scaleDown)),
-                      )))));
+  Widget buildShape(
+    int index,
+    Shape picture,
+    double left,
+    double top,
+    double right,
+    double bottom,
+  ) => Padding(
+    padding: padding[picture.index],
+    child: Transform.rotate(
+      angle: 3.14 / rotation[picture.index],
+      child: SizedBox(
+        height: 150,
+        width: 50,
+        key: ValueKey(picture),
+        child: ReorderableDragStartListener(
+          index: index,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+              image: DecorationImage(
+                image: AssetImage(picture.urlImage),
+                fit: BoxFit.scaleDown,
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
 }
 
 class Shape {
@@ -662,9 +738,5 @@ class Shape {
   String urlImage;
   int index;
 
-  Shape({
-    required this.name,
-    required this.urlImage,
-    required this.index,
-  });
+  Shape({required this.name, required this.urlImage, required this.index});
 }

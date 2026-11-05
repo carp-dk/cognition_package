@@ -14,8 +14,11 @@ class RPUIRapidVisualInfoProcessingActivityBody extends StatefulWidget {
 
   /// The [RPUIRapidVisualInfoProcessingActivityBody] constructor.
   const RPUIRapidVisualInfoProcessingActivityBody(
-      this.activity, this.eventLogger, this.onResultChange,
-      {super.key});
+    this.activity,
+    this.eventLogger,
+    this.onResultChange, {
+    super.key,
+  });
 
   @override
   RPUIRapidVisualInfoProcessingActivityBodyState createState() =>
@@ -31,13 +34,14 @@ class RPUIRapidVisualInfoProcessingActivityBodyState
   int badTaps = 0; //number of taps that were wrong
   int seqsPassed =
       0; //number of times the given sequence passed: cap for good taps
-  Duration displayTime =
-      const Duration(seconds: 1); //amount of time each number is displayed
+  Duration displayTime = const Duration(
+    seconds: 1,
+  ); //amount of time each number is displayed
   ActivityStatus activityStatus = ActivityStatus.Instruction;
   bool seqPassed =
       false; //if a sequence has passed or not, meaning a tap would be a correct tap if true
   List<bool> listIndexes = [
-    true
+    true,
   ]; //booleans for keeping track of lowest index - for registering a sequence has passed
   String seq1s = ''; //string for display of sequence
   List<int> curSeq = []; //numbers that have appeared on screen in a list
@@ -79,8 +83,9 @@ class RPUIRapidVisualInfoProcessingActivityBodyState
       if (activityStatus == ActivityStatus.Test && mounted) {
         setState(() {
           numGenerator();
-          sequenceChecker(widget.activity
-              .sequence); //check for sequence - could be for looped through multiple sequences if wanted, displayng current one.
+          sequenceChecker(
+            widget.activity.sequence,
+          ); //check for sequence - could be for looped through multiple sequences if wanted, displayng current one.
         });
       } else {
         t.cancel();
@@ -171,20 +176,23 @@ class RPUIRapidVisualInfoProcessingActivityBodyState
                 height: MediaQuery.of(context).size.height / 2.5,
                 width: MediaQuery.of(context).size.width / 1.1,
                 decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: AssetImage(
-                            'packages/cognition_package/assets/images/RVIPintro.png'))),
+                  image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: AssetImage(
+                      'packages/cognition_package/assets/images/RVIPintro.png',
+                    ),
+                  ),
+                ),
               ),
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width / 2,
               child: OutlinedButton(
                 style: ButtonStyle(
-                  padding: MaterialStateProperty.all(
+                  padding: WidgetStateProperty.all(
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                   ),
-                  shape: MaterialStateProperty.all(
+                  shape: WidgetStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6),
                     ),
@@ -210,70 +218,85 @@ class RPUIRapidVisualInfoProcessingActivityBodyState
         );
       case ActivityStatus.Test:
         return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Expanded(
-                  child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Expanded(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('${locale?.translate('sequence') ?? 'Sequence'}:',
-                      style: const TextStyle(fontSize: 24)),
+                  Text(
+                    '${locale?.translate('sequence') ?? 'Sequence'}:',
+                    style: const TextStyle(fontSize: 24),
+                  ),
                   Text(seq1s, style: const TextStyle(fontSize: 32)),
                   Container(height: 40),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text('${locale?.translate('number') ?? 'Number'}:',
-                          style: const TextStyle(fontSize: 24)),
+                      Text(
+                        '${locale?.translate('number') ?? 'Number'}:',
+                        style: const TextStyle(fontSize: 24),
+                      ),
                       Text('$newNum', style: const TextStyle(fontSize: 40)),
                     ],
                   ),
                   Container(height: 40),
                   SizedBox(
-                      height: 80,
-                      width: 160,
-                      child: OutlinedButton(
-                        child: Text(
-                          locale?.translate('guess') ?? 'Guess',
-                          style: const TextStyle(fontSize: 18),
-                        ),
-                        onPressed: () {
-                          // time is tracked if sequence has actually passed, otherwise no
-                          if (seqPassed) {
-                            seqPassed = false;
-                            goodTaps++;
-                            _sw.stop();
-                            delaysList.add(_sw.elapsedMilliseconds);
-                            int tapDelay = _sw.elapsedMilliseconds;
-                            widget.eventLogger.addCorrectGesture('Button tap',
-                                'Correct tap. Number of sequences passed: $seqsPassed. Delay on tap: $tapDelay. Shown sequence: $curSeq');
-                            _sw.reset();
-                          } else {
-                            widget.eventLogger.addWrongGesture('Button tap',
-                                'Incorrect tap. Number of sequences passed: $seqsPassed. Shown sequence: $curSeq');
-                            badTaps++;
-                          }
-                        },
-                      )),
+                    height: 80,
+                    width: 160,
+                    child: OutlinedButton(
+                      child: Text(
+                        locale?.translate('guess') ?? 'Guess',
+                        style: const TextStyle(fontSize: 18),
+                      ),
+                      onPressed: () {
+                        // time is tracked if sequence has actually passed, otherwise no
+                        if (seqPassed) {
+                          seqPassed = false;
+                          goodTaps++;
+                          _sw.stop();
+                          delaysList.add(_sw.elapsedMilliseconds);
+                          int tapDelay = _sw.elapsedMilliseconds;
+                          widget.eventLogger.addCorrectGesture(
+                            'Button tap',
+                            'Correct tap. Number of sequences passed: $seqsPassed. Delay on tap: $tapDelay. Shown sequence: $curSeq',
+                          );
+                          _sw.reset();
+                        } else {
+                          widget.eventLogger.addWrongGesture(
+                            'Button tap',
+                            'Incorrect tap. Number of sequences passed: $seqsPassed. Shown sequence: $curSeq',
+                          );
+                          badTaps++;
+                        }
+                      },
+                    ),
+                  ),
                 ],
-              ))
-            ]);
+              ),
+            ),
+          ],
+        );
       case ActivityStatus.Result:
         return Container(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(locale?.translate('test_done') ?? "The test is done.",
-                      style: const TextStyle(fontSize: 22)),
-                  Text(
-                    '${locale?.translate('you_had') ?? "You had"} $goodTaps ${locale?.translate('rapid_visual_info.correct_taps') ?? "correct guesses"} ${locale?.translate('and') ?? 'and'} $badTaps ${locale?.translate('rapid_visual_info.wrong_ones') ?? "wrong ones"}.',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 22),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 5,
-                  )
-                ]));
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                locale?.translate('test_done') ?? "The test is done.",
+                style: const TextStyle(fontSize: 22),
+              ),
+              Text(
+                '${locale?.translate('you_had') ?? "You had"} $goodTaps ${locale?.translate('rapid_visual_info.correct_taps') ?? "correct guesses"} ${locale?.translate('and') ?? 'and'} $badTaps ${locale?.translate('rapid_visual_info.wrong_ones') ?? "wrong ones"}.',
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 22),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 5,
+              ),
+            ],
+          ),
+        );
     }
   }
 }

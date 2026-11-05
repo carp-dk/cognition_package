@@ -18,15 +18,17 @@ class RPPairedAssociatesLearningActivity extends RPActivityStep {
   Widget stepBody(
     dynamic Function(dynamic) onResultChange,
     RPActivityEventLogger eventLogger,
-  ) =>
-      RPUIPairedAssociatesLearningActivityBody(
-          this, eventLogger, onResultChange);
+  ) => RPUIPairedAssociatesLearningActivityBody(
+    this,
+    eventLogger,
+    onResultChange,
+  );
 
   @override
   Function get fromJsonFunction => _$RPPairedAssociatesLearningActivityFromJson;
   factory RPPairedAssociatesLearningActivity.fromJson(
-          Map<String, dynamic> json) =>
-      FromJsonFactory().fromJson<RPPairedAssociatesLearningActivity>(json);
+    Map<String, dynamic> json,
+  ) => FromJsonFactory().fromJson<RPPairedAssociatesLearningActivity>(json);
   @override
   Map<String, dynamic> toJson() =>
       _$RPPairedAssociatesLearningActivityToJson(this);

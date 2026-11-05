@@ -21,8 +21,7 @@ class RPFlankerActivity extends RPActivityStep {
   Widget stepBody(
     dynamic Function(dynamic) onResultChange,
     RPActivityEventLogger eventLogger,
-  ) =>
-      RPUIFlankerActivity(this, eventLogger, onResultChange);
+  ) => RPUIFlankerActivity(this, eventLogger, onResultChange);
 
   /// The score is the number of mistakes made during the test.
   /// If the number of mistakes > 2, the test is failed and a score of 0 is
@@ -34,10 +33,16 @@ class RPFlankerActivity extends RPActivityStep {
   List<dynamic> calculateScoreFlanker(dynamic result) {
     var accuracy = result['correct'] / (result['correct'] + result['mistakes']);
 
-    var conSum = result['congruentTimes'].fold(0, (p, c) => p + c);
+    var conSum = result['congruentTimes'].fold(
+      0,
+      (dynamic p, dynamic c) => p + c,
+    );
     var meanCongruent = conSum / result['congruentTimes'].length;
 
-    var inconSum = result['incongruentTimes'].fold(0, (p, c) => p + c);
+    var inconSum = result['incongruentTimes'].fold(
+      0,
+      (dynamic p, dynamic c) => p + c,
+    );
     var meanIncongruent = inconSum / result['incongruentTimes'].length;
 
     int sum = 0;

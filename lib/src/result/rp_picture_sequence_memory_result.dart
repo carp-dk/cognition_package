@@ -12,13 +12,14 @@ class RPPictureSequenceResult extends RPActivityResult {
   ///  * [memoryTime]: time taken to memorize the sequence of images
   ///  * [score]: score of the test calculated in model class
   factory RPPictureSequenceResult.fromResults(
-      List<dynamic> moves,
-      List<dynamic> scores,
-      List<dynamic> times,
-      List<dynamic> memoryTimes,
-      int score,
-      original,
-      pictures) {
+    List<dynamic> moves,
+    List<dynamic> scores,
+    List<dynamic> times,
+    List<dynamic> memoryTimes,
+    int score,
+    original,
+    pictures,
+  ) {
     var res = RPPictureSequenceResult(identifier: 'PictureSequenceResult');
     res.results.addAll({'Amount of moves': moves});
     res.results.addAll({'Amount of correct pairs': scores});

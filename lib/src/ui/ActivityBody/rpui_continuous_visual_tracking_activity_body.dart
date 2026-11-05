@@ -8,8 +8,11 @@ class RPUIContinuousVisualTrackingActivityBody extends StatefulWidget {
   final RPActivityEventLogger eventLogger;
 
   const RPUIContinuousVisualTrackingActivityBody(
-      this.activity, this.eventLogger, this.onResultChange,
-      {super.key});
+    this.activity,
+    this.eventLogger,
+    this.onResultChange, {
+    super.key,
+  });
 
   @override
   RPUIContinuousVisualTrackingActivityBodyState createState() =>
@@ -81,7 +84,8 @@ class RPUIContinuousVisualTrackingActivityBodyState
               padding: const EdgeInsets.all(10),
               child: Text(
                 locale?.translate(
-                        'visual_tracking.once_the_dots_stop_moving') ??
+                      'visual_tracking.once_the_dots_stop_moving',
+                    ) ??
                     'Once the dots stop moving, find and click on the target dots and they will turn into their original blue color.',
                 style: const TextStyle(fontSize: 16),
                 overflow: TextOverflow.ellipsis,
@@ -95,19 +99,23 @@ class RPUIContinuousVisualTrackingActivityBodyState
                 height: MediaQuery.of(context).size.height / 3,
                 width: MediaQuery.of(context).size.width / 1.5,
                 decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: AssetImage(
-                            'packages/cognition_package/assets/images/visual_tracking.png'))),
+                  image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: AssetImage(
+                      'packages/cognition_package/assets/images/visual_tracking.png',
+                    ),
+                  ),
+                ),
               ),
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width / 2,
               child: OutlinedButton(
                 style: ButtonStyle(
-                  padding: MaterialStateProperty.all(
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 16)),
-                  shape: MaterialStateProperty.all(
+                  padding: WidgetStateProperty.all(
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  ),
+                  shape: WidgetStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6),
                     ),
@@ -130,15 +138,18 @@ class RPUIContinuousVisualTrackingActivityBodyState
         );
       case ActivityStatus.Test:
         return Center(
-            child: Scaffold(
-                body: ContinuousVisualTrackingActivityBody(
-                    key: widget.key,
-                    topLevelWidget: widget,
-                    numberOfTests: widget.activity.numberOfTests,
-                    amountOfDots: widget.activity.amountOfDots,
-                    amountOfTargets: widget.activity.amountOfTargets,
-                    dotSize: widget.activity.dotSize,
-                    trackingSpeed: widget.activity.trackingSpeed)));
+          child: Scaffold(
+            body: ContinuousVisualTrackingActivityBody(
+              key: widget.key,
+              topLevelWidget: widget,
+              numberOfTests: widget.activity.numberOfTests,
+              amountOfDots: widget.activity.amountOfDots,
+              amountOfTargets: widget.activity.amountOfTargets,
+              dotSize: widget.activity.dotSize,
+              trackingSpeed: widget.activity.trackingSpeed,
+            ),
+          ),
+        );
       case ActivityStatus.Result:
         return Center(
           child: Text(
@@ -147,8 +158,6 @@ class RPUIContinuousVisualTrackingActivityBodyState
             textAlign: TextAlign.center,
           ),
         );
-      default:
-        return Container();
     }
   }
 }
@@ -186,8 +195,14 @@ class ContinuousVisualTrackingActivityBody extends StatefulWidget {
 
   @override
   ContinuousVisualTrackingActivityBodyState createState() =>
-      ContinuousVisualTrackingActivityBodyState(topLevelWidget, numberOfTests,
-          amountOfDots, amountOfTargets, dotSize, trackingSpeed);
+      ContinuousVisualTrackingActivityBodyState(
+        topLevelWidget,
+        numberOfTests,
+        amountOfDots,
+        amountOfTargets,
+        dotSize,
+        trackingSpeed,
+      );
 }
 
 /// State class for [ContinuousVisualTrackingActivityBody]
@@ -223,15 +238,20 @@ class ContinuousVisualTrackingActivityBodyState
   ) {
     List<AnimatedPositioned> tDots = [];
     for (var i = 0; i < amount; i++) {
-      tDots.add(AnimatedPositioned(
-        duration: trackingSpeed,
-        left: avatarSize +
-            (constraints.biggest.width - 2 * avatarSize) / 100.0 * positions[i],
-        top: avatarSize +
-            (constraints.biggest.height - 2 * avatarSize) /
-                100.0 *
-                positions[(i + amount) + 5],
-        child: GestureDetector(
+      tDots.add(
+        AnimatedPositioned(
+          duration: trackingSpeed,
+          left:
+              avatarSize +
+              (constraints.biggest.width - 2 * avatarSize) /
+                  100.0 *
+                  positions[i],
+          top:
+              avatarSize +
+              (constraints.biggest.height - 2 * avatarSize) /
+                  100.0 *
+                  positions[(i + amount) + 5],
+          child: GestureDetector(
             onTap: () async {
               if (guess) {
                 setState(() {
@@ -240,7 +260,8 @@ class ContinuousVisualTrackingActivityBodyState
                   mistakes[conCurrentNum] = mistakes[conCurrentNum] + 1;
                 });
                 await Future<dynamic>.delayed(
-                    const Duration(milliseconds: 250));
+                  const Duration(milliseconds: 250),
+                );
                 setState(() {
                   distractors[i] = false;
                 });
@@ -248,23 +269,29 @@ class ContinuousVisualTrackingActivityBodyState
             },
             child: CircleAvatar(
               radius: avatarSize / 2,
-              backgroundColor:
-                  distractors[i] ? const Color(0xffFF0000) : Colors.grey,
-            )),
-      ));
+              backgroundColor: distractors[i]
+                  ? const Color(0xffFF0000)
+                  : Colors.grey,
+            ),
+          ),
+        ),
+      );
     }
     for (var i = 0; i < targetAmount; i++) {
-      tDots.add(AnimatedPositioned(
-        duration: trackingSpeed,
-        left: avatarSize +
-            (constraints.biggest.width - 2 * avatarSize) /
-                100.0 *
-                positions[i + amount],
-        top: avatarSize +
-            (constraints.biggest.height - 2 * avatarSize) /
-                100.0 *
-                positions[i + amount + 5],
-        child: GestureDetector(
+      tDots.add(
+        AnimatedPositioned(
+          duration: trackingSpeed,
+          left:
+              avatarSize +
+              (constraints.biggest.width - 2 * avatarSize) /
+                  100.0 *
+                  positions[i + amount],
+          top:
+              avatarSize +
+              (constraints.biggest.height - 2 * avatarSize) /
+                  100.0 *
+                  positions[i + amount + 5],
+          child: GestureDetector(
             onTap: () {
               if (guess) {
                 setState(() {
@@ -279,19 +306,22 @@ class ContinuousVisualTrackingActivityBodyState
             child: CircleAvatar(
               radius: avatarSize / 2,
               backgroundColor: dots[i] ? const Color(0xff1F669B) : Colors.grey,
-            )),
-      ));
+            ),
+          ),
+        ),
+      );
     }
     return tDots;
   }
 
   ContinuousVisualTrackingActivityBodyState(
-      this.sWidget,
-      this.numberOfTests,
-      this.amountOfDots,
-      this.amountOfTargets,
-      this.dotSize,
-      this.trackingSpeed);
+    this.sWidget,
+    this.numberOfTests,
+    this.amountOfDots,
+    this.amountOfTargets,
+    this.dotSize,
+    this.trackingSpeed,
+  );
 
   @override
   initState() {
@@ -348,15 +378,13 @@ class ContinuousVisualTrackingActivityBodyState
     const oneSec = Duration(seconds: 1);
     testTimer = Timer.periodic(
       oneSec,
-      (Timer timer) => setState(
-        () {
-          if (seconds < 0) {
-            timer.cancel();
-          } else {
-            seconds = seconds + 1;
-          }
-        },
-      ),
+      (Timer timer) => setState(() {
+        if (seconds < 0) {
+          timer.cancel();
+        } else {
+          seconds = seconds + 1;
+        }
+      }),
     );
   }
 
@@ -368,11 +396,15 @@ class ContinuousVisualTrackingActivityBodyState
       testTimer?.cancel();
       seconds = 0;
 
-      continuousVisualTrackingScore =
-          sWidget.activity.calculateScore({'mistakes': mistakes});
+      continuousVisualTrackingScore = sWidget.activity.calculateScore({
+        'mistakes': mistakes,
+      });
       RPVisualTrackingResult visualTrackingResult =
           RPVisualTrackingResult.fromResults(
-              mistakes, visualScoreList, continuousVisualTrackingScore);
+            mistakes,
+            visualScoreList,
+            continuousVisualTrackingScore,
+          );
       sWidget.onResultChange(visualTrackingResult.results);
       if (sWidget.activity.includeResults) {
         sWidget.eventLogger.resultsShown();
@@ -400,57 +432,84 @@ class ContinuousVisualTrackingActivityBodyState
   Widget build(BuildContext context) {
     var locale = CPLocalizations.of(context);
     return Scaffold(
-        body: Center(
-            child: Column(children: [
-      SizedBox(
-          height: MediaQuery.of(context).size.height - 270,
-          width: MediaQuery.of(context).size.width - 20,
-          child: LayoutBuilder(builder: (context, constraints) {
-            return Stack(
-                children: getDots(
-                    amountOfDots, amountOfTargets, constraints, dotSize));
-          })),
-      Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
-          child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: !guess
-                  ? waiting
-                      ? Container()
-                      : Center(
-                          child: Column(children: [
-                          OutlinedButton(
-                            style: ButtonStyle(
-                              padding: MaterialStateProperty.all(
-                                  const EdgeInsets.symmetric(
-                                      horizontal: 24, vertical: 16)),
-                              shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
+      body: Center(
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height - 270,
+              width: MediaQuery.of(context).size.width - 20,
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  return Stack(
+                    children: getDots(
+                      amountOfDots,
+                      amountOfTargets,
+                      constraints,
+                      dotSize,
+                    ),
+                  );
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: !guess
+                    ? waiting
+                          ? Container()
+                          : Center(
+                              child: Column(
+                                children: [
+                                  OutlinedButton(
+                                    style: ButtonStyle(
+                                      padding: WidgetStateProperty.all(
+                                        const EdgeInsets.symmetric(
+                                          horizontal: 24,
+                                          vertical: 16,
+                                        ),
+                                      ),
+                                      shape: WidgetStateProperty.all(
+                                        RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            6,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      startTest();
+                                    },
+                                    child: Text(
+                                      locale?.translate('start') ?? 'Start',
+                                      style: const TextStyle(fontSize: 18),
+                                    ),
+                                  ),
+                                  Text('task $conCurrentNum/$numberOfTests'),
+                                ],
                               ),
-                            ),
-                            onPressed: () {
-                              startTest();
-                            },
-                            child: Text(
-                              locale?.translate('start') ?? 'Start',
-                              style: const TextStyle(fontSize: 18),
-                            ),
-                          ),
-                          Text('task $conCurrentNum/$numberOfTests')
-                        ]))
-                  : finished
-                      ? Center(
-                          child: Text(
+                            )
+                    : finished
+                    ? Center(
+                        child: Text(
                           locale?.translate('continue') ??
                               "Click 'Next' to continue",
                           style: const TextStyle(fontSize: 18),
-                        ))
-                      : Center(
-                          child: Text(locale?.translate(
-                                  'visual_tracking.press_previously') ??
-                              'Press the dots which previously were blue.'))))
-    ])));
+                        ),
+                      )
+                    : Center(
+                        child: Text(
+                          locale?.translate(
+                                'visual_tracking.press_previously',
+                              ) ??
+                              'Press the dots which previously were blue.',
+                        ),
+                      ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

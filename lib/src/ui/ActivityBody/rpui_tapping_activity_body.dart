@@ -14,8 +14,11 @@ class RPUITappingActivityBody extends StatefulWidget {
 
   /// The [RPUITappingActivityBody] constructor.
   const RPUITappingActivityBody(
-      this.activity, this.eventLogger, this.onResultChange,
-      {super.key});
+    this.activity,
+    this.eventLogger,
+    this.onResultChange, {
+    super.key,
+  });
 
   @override
   RPUITappingActivityBodyState createState() => RPUITappingActivityBodyState();
@@ -110,20 +113,23 @@ class RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                   height: MediaQuery.of(context).size.height / 2.5,
                   width: MediaQuery.of(context).size.width / 1.1,
                   decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: AssetImage(
-                              'packages/cognition_package/assets/images/Tappingintro.png'))),
+                    image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: AssetImage(
+                        'packages/cognition_package/assets/images/Tappingintro.png',
+                      ),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width / 2,
                 child: OutlinedButton(
                   style: ButtonStyle(
-                    padding: MaterialStateProperty.all(
+                    padding: WidgetStateProperty.all(
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                     ),
-                    shape: MaterialStateProperty.all(
+                    shape: WidgetStateProperty.all(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(6),
                       ),
@@ -138,9 +144,7 @@ class RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 100,
-              ),
+              const SizedBox(height: 100),
             ],
           ),
         );
@@ -169,7 +173,9 @@ class RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                                 ),
                                 onPressed: () {
                                   widget.eventLogger.addCorrectGesture(
-                                      'Button tap', 'Pressed the left button');
+                                    'Button tap',
+                                    'Pressed the left button',
+                                  );
                                   setState(() {
                                     taps++;
                                   });
@@ -187,7 +193,9 @@ class RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                                 ),
                                 onPressed: () {
                                   widget.eventLogger.addCorrectGesture(
-                                      'Button tap', 'Pressed the right button');
+                                    'Button tap',
+                                    'Pressed the right button',
+                                  );
                                   setState(() {
                                     taps++;
                                   });
@@ -195,9 +203,10 @@ class RPUITappingActivityBodyState extends State<RPUITappingActivityBody> {
                               ),
                             ),
                           ],
-                        )
+                        ),
                       ],
-                    ))
+                    ),
+                  ),
           ],
         );
       case ActivityStatus.Result:

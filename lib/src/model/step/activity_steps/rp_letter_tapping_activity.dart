@@ -13,8 +13,7 @@ class RPLetterTappingActivity extends RPActivityStep {
   Widget stepBody(
     dynamic Function(dynamic) onResultChange,
     RPActivityEventLogger eventLogger,
-  ) =>
-      RPUILetterTappingActivityBody(this, eventLogger, onResultChange);
+  ) => RPUILetterTappingActivityBody(this, eventLogger, onResultChange);
 
   @override
   int calculateScore(dynamic result) {

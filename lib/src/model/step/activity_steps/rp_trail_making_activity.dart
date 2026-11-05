@@ -18,8 +18,7 @@ class RPTrailMakingActivity extends RPActivityStep {
   Widget stepBody(
     dynamic Function(dynamic) onResultChange,
     RPActivityEventLogger eventLogger,
-  ) =>
-      RPUITrailMakingActivityBody(this, eventLogger, onResultChange);
+  ) => RPUITrailMakingActivityBody(this, eventLogger, onResultChange);
 
   /// Results is number of mistakes made in the trailmaking task.
   /// Maximum score is 5 with -1 for each mistake made.

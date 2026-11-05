@@ -3,8 +3,8 @@ description: A demo application for the Cognition Package
 publish_to: none
 
 environment:
-  sdk: '>=3.0.6 <4.0.0'
-  flutter: ">=3.0.0"
+  sdk: '>=3.12.0 <4.0.0'
+  flutter: ">=3.44.0"
 
 dependencies:
   flutter:
