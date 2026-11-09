@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cognition_package/model.dart';
 import 'package:cognition_package/ui.dart';
 import 'package:flutter/material.dart';
@@ -51,4 +53,17 @@ void main() {
       ); // let the test timer run out
     },
   );
+
+  test('2 correct swipes on congruent cards only still JSON encode', () {
+    final score = RPFlankerActivity(identifier: 'flanker')
+        .calculateScoreFlanker({
+          'mistakes': 0,
+          'correct': 2,
+          'congruentTimes': [300, 500],
+          'incongruentTimes': <int>[],
+        });
+    // No incongruent time, so no score - as before the fix.
+    expect(score, [0, 400.0, 0.0]);
+    expect(() => jsonEncode(score), returnsNormally);
+  });
 }

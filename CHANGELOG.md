@@ -1,3 +1,7 @@
+## 1.10.1
+
+- fix: if every correct Flanker swipe was on the same kind of card (all congruent or all incongruent - a coin flip with 2 correct swipes), the other mean was `NaN` and JSON encoding of the result crashed (`Converting object to an encodable object failed: Instance of 'Measurement'`). An empty mean is now 0; the score is unchanged (0, as before).
+
 ## 1.10.0
 
 - upgrade to `research_package` ^4.0.0
