@@ -42,7 +42,10 @@ class RPFlankerActivity extends RPActivityStep {
 
     int sum = 0;
     try {
-      if (meanIncongruent - meanCongruent < 500) sum = 1;
+      final both =
+          (result['congruentTimes'] as List).isNotEmpty &&
+          (result['incongruentTimes'] as List).isNotEmpty;
+      if (both && meanIncongruent - meanCongruent < 500) sum = 1;
       if (accuracy as double < 0.73) sum = 0;
     } catch (error) {
       print('$runtimeType - Error calculating score: $error');

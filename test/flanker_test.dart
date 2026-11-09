@@ -54,7 +54,7 @@ void main() {
     },
   );
 
-  test('a test with no incongruent cards swiped still JSON encodes', () {
+  test('2 correct swipes on congruent cards only still JSON encode', () {
     final score = RPFlankerActivity(identifier: 'flanker')
         .calculateScoreFlanker({
           'mistakes': 0,
@@ -62,7 +62,8 @@ void main() {
           'congruentTimes': [300, 500],
           'incongruentTimes': <int>[],
         });
-    expect(score, [1, 400.0, 0.0]);
+    // No incongruent time, so no score - as before the fix.
+    expect(score, [0, 400.0, 0.0]);
     expect(() => jsonEncode(score), returnsNormally);
   });
 }
