@@ -41,15 +41,11 @@ class RPFlankerActivity extends RPActivityStep {
     var meanIncongruent = mean(result['incongruentTimes']);
 
     int sum = 0;
-    try {
-      final both =
-          (result['congruentTimes'] as List).isNotEmpty &&
-          (result['incongruentTimes'] as List).isNotEmpty;
-      if (both && meanIncongruent - meanCongruent < 500) sum = 1;
-      if (accuracy as double < 0.73) sum = 0;
-    } catch (error) {
-      print('$runtimeType - Error calculating score: $error');
-    }
+    final both =
+        (result['congruentTimes'] as List).isNotEmpty &&
+        (result['incongruentTimes'] as List).isNotEmpty;
+    if (both && meanIncongruent - meanCongruent < 500) sum = 1;
+    if (accuracy as double < 0.73) sum = 0;
 
     return [sum, meanCongruent, meanIncongruent];
   }
