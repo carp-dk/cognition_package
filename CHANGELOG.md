@@ -1,3 +1,7 @@
+## 1.9.2
+
+- fix: if every correct Flanker swipe was on the same kind of card (all congruent or all incongruent), the other mean was `NaN` and JSON encoding of the result crashed (`Converting object to an encodable object failed: Instance of 'Measurement'`). An empty mean is now 0; the score is unchanged (0, as before).
+
 ## 1.9.1
 
 - fix: the Flanker test did not end when a card was flung vertically - such a swipe discarded the card without counting it. Cards now only answer left/right, and the last swipe ends the test.
