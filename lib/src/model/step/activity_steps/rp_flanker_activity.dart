@@ -33,21 +33,16 @@ class RPFlankerActivity extends RPActivityStep {
   List<dynamic> calculateScoreFlanker(dynamic result) {
     var accuracy = result['correct'] / (result['correct'] + result['mistakes']);
 
-    var conSum = result['congruentTimes'].fold(
-      0,
-      (dynamic p, dynamic c) => p + c,
-    );
-    var meanCongruent = conSum / result['congruentTimes'].length;
-
-    var inconSum = result['incongruentTimes'].fold(
-      0,
-      (dynamic p, dynamic c) => p + c,
-    );
-    var meanIncongruent = inconSum / result['incongruentTimes'].length;
+    // An empty list (no card of that kind swiped) gives 0, not NaN - NaN can't be JSON encoded.
+    double mean(dynamic times) => (times as List).isEmpty
+        ? 0.0
+        : times.fold<num>(0, (p, c) => p + (c as num)) / times.length;
+    var meanCongruent = mean(result['congruentTimes']);
+    var meanIncongruent = mean(result['incongruentTimes']);
 
     int sum = 0;
     try {
-      if ((meanIncongruent - meanCongruent) as double < 500) sum = 1;
+      if (meanIncongruent - meanCongruent < 500) sum = 1;
       if (accuracy as double < 0.73) sum = 0;
     } catch (error) {
       print('$runtimeType - Error calculating score: $error');

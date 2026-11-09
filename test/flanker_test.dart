@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cognition_package/model.dart';
 import 'package:cognition_package/ui.dart';
 import 'package:flutter/material.dart';
@@ -51,4 +53,16 @@ void main() {
       ); // let the test timer run out
     },
   );
+
+  test('a test with no incongruent cards swiped still JSON encodes', () {
+    final score = RPFlankerActivity(identifier: 'flanker')
+        .calculateScoreFlanker({
+          'mistakes': 0,
+          'correct': 2,
+          'congruentTimes': [300, 500],
+          'incongruentTimes': <int>[],
+        });
+    expect(score, [1, 400.0, 0.0]);
+    expect(() => jsonEncode(score), returnsNormally);
+  });
 }

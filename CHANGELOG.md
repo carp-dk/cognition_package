@@ -1,3 +1,7 @@
+## 1.10.1
+
+- fix: finishing the Flanker test without swiping both a congruent and an incongruent card gave a `NaN` mean, which crashed JSON encoding of the result (`Converting object to an encodable object failed: Instance of 'Measurement'`). An empty mean is now 0.
+
 ## 1.10.0
 
 - upgrade to `research_package` ^4.0.0
